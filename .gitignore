@@ -1,0 +1,10 @@
+*.pdf
+*.epub
+Peacemaker_Presenter_Script.html
+\[ADR\]*
+.claude/
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~

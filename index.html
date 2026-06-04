@@ -1,0 +1,1117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>The Peacemaker — Biblical Restitution &amp; Conflict Resolution</title>
+<meta name="description" content="An interactive guide to biblical restitution and conflict resolution, based on Appendices C and D of Ken Sande's The Peacemaker. Features a restitution calculator and court decision wizard.">
+<meta property="og:title" content="The Peacemaker — Restitution &amp; Conflict Resolution">
+<meta property="og:description" content="Interactive restitution calculator and court decision wizard based on The Peacemaker by Ken Sande.">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚖️</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#f3e9d1; --paper-2:#ecdfbf; --card:#fbf5e4; --card-2:#f6eed7;
+  --ink:#2b2620; --ink-soft:#5e5240; --ink-faint:#8a7c64;
+  --line:#e0d2ab; --line-strong:#cbb784;
+  --gold:#b3851f; --gold-deep:#946d16; --gold-soft:#d8b85a;
+  --burgundy:#7c1f2c; --burgundy-soft:#a4434f;
+  --green:#3d6a45; --green-soft:#6f9b6c; --blue:#2f5d73; --urgent:#8a1020;
+  --shadow:rgba(74,55,20,.16); --shadow-strong:rgba(74,55,20,.30);
+  --serif:'EB Garamond',Georgia,'Times New Roman',serif;
+  --display:'Cormorant Garamond',Georgia,serif;
+  --ui:system-ui,-apple-system,'Segoe UI',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-snap-type:y proximity;scroll-padding-top:0}
+body{
+  font-family:var(--serif);color:var(--ink);
+  background:
+    radial-gradient(1200px 800px at 12% -8%, #fbf3dd 0%, rgba(251,243,221,0) 55%),
+    radial-gradient(1000px 700px at 112% 108%, #ecdcb5 0%, rgba(236,220,181,0) 50%),
+    linear-gradient(160deg,var(--paper) 0%,var(--paper-2) 100%);
+  background-attachment:fixed;
+  font-size:clamp(16px,1.65vw,21px);line-height:1.5;-webkit-font-smoothing:antialiased;
+}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+  background-image:radial-gradient(rgba(120,95,40,.05) 1px,transparent 1px);background-size:4px 4px;opacity:.5;mix-blend-mode:multiply}
+
+/* ===== SECTIONS ===== */
+.sec{
+  position:relative;z-index:1;min-height:100vh;
+  display:flex;flex-direction:column;justify-content:safe center;
+  padding:8vh 6vw;scroll-snap-align:start;
+}
+.sec .wrap{width:100%;max-width:1080px;margin:0 auto}
+.sec[data-app="c"] .eyebrow{color:var(--gold-deep)}
+.sec[data-app="c"] .eyebrow::after{background:linear-gradient(90deg,var(--gold-soft),transparent)}
+
+/* ===== TYPOGRAPHY ===== */
+h1{font-family:var(--display);font-weight:700;line-height:1.02;letter-spacing:-.01em}
+h2{font-family:var(--display);font-weight:700;font-size:clamp(30px,4.6vw,58px);line-height:1.04}
+h3{font-family:var(--display);font-weight:600;font-size:clamp(20px,2.3vw,29px);line-height:1.15}
+h4{font-family:var(--display);font-weight:600;font-size:clamp(17px,1.9vw,23px)}
+.eyebrow{font-family:var(--ui);font-size:clamp(11px,1.1vw,13px);font-weight:600;letter-spacing:.26em;text-transform:uppercase;color:var(--burgundy);margin-bottom:.9em;display:flex;align-items:center;gap:.7em}
+.eyebrow::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,var(--burgundy-soft),transparent);opacity:.5}
+.lead{font-size:clamp(18px,2vw,25px);color:var(--ink-soft);line-height:1.45}
+p+p{margin-top:.7em}
+strong{color:var(--burgundy);font-weight:600}
+em{color:var(--gold-deep);font-style:italic}
+.muted{color:var(--ink-faint)}
+.ref{font-family:var(--ui);font-size:.72em;letter-spacing:.04em;color:var(--gold-deep);font-weight:600;white-space:nowrap}
+.rule{height:2px;width:84px;background:linear-gradient(90deg,var(--gold),var(--gold-soft));border-radius:2px;margin:1.1em 0}
+
+/* ===== SCROLL REVEAL ===== */
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .7s cubic-bezier(.2,.7,.2,1),transform .7s cubic-bezier(.2,.7,.2,1)}
+.reveal.in{opacity:1;transform:none}
+.stagger.in>*{opacity:0;transform:translateY(22px);animation:rise .6s cubic-bezier(.2,.7,.2,1) forwards}
+.stagger.in>*:nth-child(1){animation-delay:.05s}
+.stagger.in>*:nth-child(2){animation-delay:.13s}
+.stagger.in>*:nth-child(3){animation-delay:.21s}
+.stagger.in>*:nth-child(4){animation-delay:.29s}
+.stagger.in>*:nth-child(5){animation-delay:.37s}
+.stagger.in>*:nth-child(6){animation-delay:.45s}
+@keyframes rise{to{opacity:1;transform:none}}
+
+/* ===== HERO ===== */
+.hero{align-items:center;text-align:center;min-height:100vh}
+.hero .booktag{font-family:var(--ui);font-size:13px;letter-spacing:.32em;text-transform:uppercase;color:var(--gold-deep);font-weight:600;margin-bottom:1.4em;opacity:0;animation:rise .9s .1s forwards}
+.hero h1{font-size:clamp(42px,8vw,110px);opacity:0;animation:rise 1s .25s forwards}
+.hero h1 .amp{color:var(--burgundy);font-style:italic;font-weight:600}
+.hero .sub{font-family:var(--display);font-style:italic;font-size:clamp(18px,2.4vw,32px);color:var(--ink-soft);margin-top:.3em;opacity:0;animation:rise 1s .45s forwards;max-width:700px;margin-left:auto;margin-right:auto}
+.hero .meta{margin-top:2em;color:var(--ink-soft);opacity:0;animation:rise 1s .65s forwards}
+.hero .meta .course{font-weight:600}
+.hero .meta .src{font-size:.8em;color:var(--ink-faint);max-width:600px;margin:.5em auto 0}
+.hero-ctas{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin-top:2.2em;opacity:0;animation:rise 1s .55s forwards}
+.hero-cta{font-family:var(--ui);font-size:15px;font-weight:700;letter-spacing:.04em;text-decoration:none;padding:.75em 1.6em;border-radius:999px;transition:.2s;display:inline-flex;align-items:center;gap:.5em}
+.hero-cta.primary{background:var(--burgundy);color:#f4e6d2;border:2px solid var(--burgundy);box-shadow:0 10px 28px -10px rgba(124,31,44,.5)}
+.hero-cta.primary:hover{background:#641824;border-color:#641824;transform:translateY(-2px);box-shadow:0 14px 34px -12px rgba(124,31,44,.6)}
+.hero-cta.secondary{background:transparent;color:var(--gold-deep);border:2px solid var(--gold-deep)}
+.hero-cta.secondary:hover{background:var(--gold-deep);color:#fff;transform:translateY(-2px);box-shadow:0 10px 28px -10px rgba(148,109,22,.5)}
+.cue{margin-top:2.4em;font-family:var(--ui);font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-faint);opacity:0;animation:rise 1s .9s forwards;display:flex;flex-direction:column;align-items:center;gap:.6em}
+.cue .chev{font-size:22px;color:var(--gold);animation:bob 1.8s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(7px)}}
+
+/* ===== CARDS / GRID ===== */
+.grid{display:grid;gap:clamp(14px,1.7vw,22px)}
+.g2{grid-template-columns:repeat(2,1fr)}
+.g3{grid-template-columns:repeat(3,1fr)}
+.card{background:linear-gradient(165deg,var(--card),var(--card-2));border:1px solid var(--line);border-radius:16px;padding:clamp(16px,1.9vw,26px);box-shadow:0 10px 30px -18px var(--shadow)}
+.card .num{font-family:var(--display);font-weight:700;font-size:1.5em;color:var(--gold);line-height:1;display:inline-flex;width:1.7em;height:1.7em;align-items:center;justify-content:center;border:2px solid var(--gold-soft);border-radius:50%;margin-bottom:.45em}
+.card.accent{border-left:4px solid var(--burgundy)}
+.tag{font-family:var(--ui);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:.3em .7em;border-radius:999px;display:inline-block}
+.tag.no{background:rgba(124,31,44,.12);color:var(--burgundy)}
+.tag.yes{background:rgba(61,106,69,.15);color:var(--green)}
+ul.clean{list-style:none;display:flex;flex-direction:column;gap:.6em}
+ul.clean li{position:relative;padding-left:1.6em}
+ul.clean li::before{content:"✦";position:absolute;left:0;top:.05em;color:var(--gold);font-size:.82em}
+
+/* ===== SCRIPTURE ===== */
+.scripture{background:linear-gradient(165deg,#fbf3da,#f4e9c9);border-left:5px solid var(--gold);border-radius:0 14px 14px 0;padding:clamp(16px,2vw,28px) clamp(20px,2.4vw,34px);box-shadow:0 12px 34px -22px var(--shadow-strong)}
+.scripture .verse{font-family:var(--display);font-style:italic;font-size:clamp(19px,2.4vw,31px);line-height:1.3}
+.scripture .cite{margin-top:.6em;font-family:var(--ui);font-size:.78em;letter-spacing:.14em;text-transform:uppercase;color:var(--burgundy);font-weight:700}
+
+/* ===== AUTHOR QUOTE (Sande's own words) ===== */
+.author-quote{position:relative;background:linear-gradient(165deg,#f1e8d8,#e7dcc4);border:1px solid var(--line-strong);border-left:5px solid var(--burgundy);border-radius:0 14px 14px 0;padding:clamp(15px,1.9vw,24px) clamp(20px,2.3vw,30px);box-shadow:0 12px 30px -22px var(--shadow-strong);overflow:hidden}
+.author-quote::before{content:"\201C";position:absolute;top:-.18em;right:.12em;font-family:var(--display);font-weight:700;font-size:6em;line-height:1;color:var(--burgundy);opacity:.1;pointer-events:none}
+.author-quote blockquote{font-family:var(--display);font-style:italic;font-weight:600;font-size:clamp(17px,2vw,26px);line-height:1.32;color:var(--ink);position:relative;z-index:1;max-width:60ch}
+.author-quote .aq-by{margin-top:.7em;font-family:var(--ui);font-size:.76em;letter-spacing:.02em;color:var(--ink-soft);font-weight:600}
+.author-quote .aq-by b{color:var(--ink)}
+
+/* ===== CASE FILE ===== */
+.casefile{display:flex;gap:clamp(16px,2.5vw,34px);align-items:flex-start;background:linear-gradient(165deg,var(--card),var(--card-2));border:1px solid var(--line-strong);border-radius:14px;padding:clamp(16px,2vw,26px) clamp(18px,2.2vw,30px);margin-top:1.1em;box-shadow:0 14px 34px -22px var(--shadow-strong)}
+.cf-content{flex:1;min-width:0}
+.cf-cap{font-family:var(--ui);font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-faint);border-bottom:1px solid var(--line);padding-bottom:.7em;margin-bottom:.85em;line-height:1.5}
+.cf-exhibit{flex:none;width:clamp(110px,14vw,142px);margin:0;background:#fff;border:4px solid #fff;border-radius:8px;overflow:hidden;box-shadow:0 9px 22px -10px var(--shadow-strong);transform:rotate(2.2deg)}
+.cf-exhibit img{display:block;width:100%;height:clamp(76px,9vw,94px);object-fit:cover}
+.cf-exhibit figcaption{font-family:var(--ui);font-size:9.5px;color:var(--ink-soft);text-align:center;padding:4px 5px;line-height:1.25;background:#fff}
+.cf-row{display:grid;grid-template-columns:9.5em 1fr;gap:6px 16px;align-items:baseline}
+.cf-row+.cf-row{margin-top:.7em}
+.cf-tag{font-family:var(--ui);font-size:10.5px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--burgundy);padding-top:.2em}
+.cf-row p{color:var(--ink);font-size:clamp(15px,1.7vw,21px);line-height:1.4}
+.cf-row.q p{font-family:var(--display);font-style:italic;font-weight:600;color:var(--ink)}
+@media(max-width:560px){.casefile{flex-direction:column-reverse}.cf-exhibit{align-self:flex-end}.cf-row{grid-template-columns:1fr;gap:2px}}
+
+/* ===== DISCUSSION QUESTIONS ===== */
+.discuss{margin-top:1.5em;display:grid;gap:12px;max-width:880px}
+.discuss-label{font-family:var(--ui);font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--burgundy);margin-bottom:.1em}
+.discuss-label::before{content:"💬  "}
+.dq{display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:start;background:linear-gradient(165deg,var(--card),var(--card-2));border:1px solid var(--line);border-left:4px solid var(--gold);border-radius:0 14px 14px 0;padding:clamp(13px,1.6vw,20px) clamp(16px,1.8vw,22px);box-shadow:0 8px 22px -18px var(--shadow)}
+.dq .dq-n{font-family:var(--display);font-weight:700;font-size:1.7em;color:var(--gold);line-height:1}
+.dq p{font-size:clamp(15px,1.7vw,21px);color:var(--ink);line-height:1.4}
+.dq p em{color:var(--gold-deep)}
+
+/* ===== DECISION TREE (wizard map) ===== */
+.dtree{max-width:940px;margin:.3em auto 0}
+.dstep{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(150px,.82fr);align-items:center;gap:8px 14px}
+.dgate{background:linear-gradient(165deg,var(--card),var(--card-2));border:1.5px solid var(--line-strong);border-radius:12px;padding:.55em .95em;box-shadow:0 6px 16px -13px var(--shadow)}
+.dg-n{font-family:var(--ui);font-size:9.5px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--burgundy);margin-bottom:.05em}
+.dg-q{font-family:var(--display);font-weight:600;font-size:clamp(15px,1.6vw,20px);line-height:1.12}
+.dexit{display:flex;align-items:center;gap:6px;font-family:var(--ui);font-size:10.5px;font-style:italic;color:var(--ink-faint);white-space:nowrap}
+.dexit::after{content:"→";font-style:normal;font-size:1.4em;color:var(--line-strong)}
+.dout{border-radius:10px;padding:.5em .75em;border:1.5px solid;font-family:var(--ui);font-size:clamp(11.5px,1.2vw,13.5px);font-weight:700;line-height:1.2}
+.dout small{display:block;font-weight:400;font-size:.85em;opacity:.85;margin-top:.05em}
+.dout.info{background:rgba(47,93,115,.1);border-color:var(--blue);color:var(--blue)}
+.dout.urgent{background:rgba(138,16,32,.1);border-color:var(--urgent);color:var(--urgent)}
+.dout.warn{background:rgba(179,133,31,.13);border-color:var(--gold-deep);color:var(--gold-deep)}
+.dout.bad{background:rgba(124,31,44,.1);border-color:var(--burgundy);color:var(--burgundy)}
+.dout.good{background:rgba(61,106,69,.13);border-color:var(--green);color:var(--green)}
+.dlink{display:flex;align-items:center;gap:.45em;padding:3px 0 3px 1.1em;font-family:var(--ui);font-size:10.5px;font-weight:600;color:var(--green);letter-spacing:.02em}
+.dlink::before{content:"↓";font-size:1.35em;line-height:1}
+.dfinal{margin-top:6px;display:flex;align-items:center;gap:13px;flex-wrap:wrap;background:linear-gradient(165deg,rgba(61,106,69,.15),rgba(61,106,69,.05));border:2px solid var(--green);border-radius:14px;padding:.75em 1.1em;max-width:560px}
+.dfinal .df-b{font-family:var(--display);font-weight:700;font-size:clamp(19px,2.2vw,27px);color:var(--green);line-height:1;white-space:nowrap}
+.dfinal .df-t{font-family:var(--display);font-weight:600;font-size:clamp(15px,1.6vw,20px);color:var(--ink)}
+@media(max-width:680px){
+  .dstep{grid-template-columns:1fr;gap:4px}
+  .dexit{font-style:normal;color:var(--burgundy);font-weight:600;padding-left:1.1em}
+  .dexit::after{content:"↘"}
+  .dout{margin-left:1.1em}
+}
+
+/* ===== FLIP CARDS ===== */
+.flips{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}
+.flip{perspective:1200px;cursor:pointer;height:230px}
+.flip-inner{position:relative;width:100%;height:100%;transition:transform .7s cubic-bezier(.4,.2,.2,1);transform-style:preserve-3d}
+.flip.flipped .flip-inner{transform:rotateY(180deg)}
+.flip-face{position:absolute;inset:0;backface-visibility:hidden;border-radius:16px;padding:22px;display:flex;flex-direction:column;justify-content:center;border:1px solid var(--line);box-shadow:0 10px 30px -18px var(--shadow)}
+.flip-front{background:linear-gradient(160deg,var(--burgundy),#5e151f);color:#f4e6d2}
+.flip-front .cite{font-family:var(--ui);font-size:.72em;letter-spacing:.16em;text-transform:uppercase;color:var(--gold-soft);font-weight:700;margin-bottom:.5em}
+.flip-front .teaser{font-family:var(--display);font-size:clamp(20px,2vw,26px);line-height:1.2}
+.flip-front .hintf{margin-top:auto;font-family:var(--ui);font-size:11px;letter-spacing:.1em;text-transform:uppercase;opacity:.7}
+.flip-back{background:linear-gradient(160deg,var(--card),var(--card-2));transform:rotateY(180deg)}
+.flip-back .verse{font-family:var(--display);font-style:italic;font-size:clamp(16px,1.6vw,20px);line-height:1.3}
+.flip-back .cite{margin-top:.5em;font-family:var(--ui);font-size:.72em;letter-spacing:.14em;text-transform:uppercase;color:var(--burgundy);font-weight:700}
+
+/* ===== RESTITUTION SCALE (animated) ===== */
+.scale{display:flex;flex-direction:column;gap:10px;margin-top:.5em}
+.rung{position:relative;display:block;padding:clamp(11px,1.4vw,17px) clamp(14px,1.8vw,24px);border-radius:14px;border:1px solid var(--line);background:var(--card);overflow:hidden;box-shadow:0 8px 22px -18px var(--shadow)}
+.rung-main{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:clamp(12px,1.6vw,22px)}
+.rung .fill{position:absolute;left:0;top:0;bottom:0;width:0;background:var(--c);opacity:.12;transition:width 1.1s cubic-bezier(.2,.7,.2,1)}
+.scale.in .rung .fill{width:var(--w)}
+.rung::before{content:"";position:absolute;left:0;top:0;bottom:0;width:6px;background:var(--c);z-index:1}
+.rung>*{position:relative;z-index:2}
+.rung{cursor:pointer;transition:box-shadow .2s}
+.rung:hover{box-shadow:0 13px 28px -16px var(--shadow-strong)}
+.rung-chev{font-family:var(--ui);font-size:.6em;color:var(--ink-faint);margin-left:.45em;transition:transform .3s;display:inline-block;vertical-align:middle}
+.rung.open .rung-chev{transform:rotate(180deg)}
+.rung-story{display:none}
+.rung.open .rung-story{display:block;margin-top:.7em;padding-top:.7em;border-top:1px dashed var(--line-strong);animation:rungIn .32s ease both}
+@keyframes rungIn{from{opacity:0;transform:translateY(-5px)}to{opacity:1;transform:none}}
+.rung-story p{font-size:.85em;color:var(--ink-soft);line-height:1.42}
+.rung-story p+p{margin-top:.4em}
+.rung-story b{color:var(--ink);font-weight:700}
+.rung-story em{color:var(--gold-deep);font-style:italic}
+.rung-story .sv{font-family:var(--ui);font-size:.82em;font-weight:700;letter-spacing:.02em;color:var(--gold-deep);white-space:nowrap}
+.rung .mult{font-family:var(--display);font-weight:700;font-size:clamp(18px,2.4vw,30px);color:#fff;background:var(--c);min-width:2.4em;text-align:center;padding:.25em .5em;border-radius:10px;line-height:1;white-space:nowrap;box-shadow:0 6px 16px -8px var(--c)}
+.rung .rb h4{color:var(--ink)}
+.rung .rb p{font-size:.84em;color:var(--ink-soft);margin-top:.1em}
+.scale-axis{display:flex;justify-content:space-between;font-family:var(--ui);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-faint);margin-top:.5em;padding:0 .3em}
+
+/* ===== INTERACTIVE FLOW (calculator + wizard) ===== */
+.tool{background:linear-gradient(165deg,#fcf7ea,#f4ebd5);border:1px solid var(--line-strong);border-radius:22px;padding:clamp(20px,2.6vw,38px);box-shadow:0 24px 60px -34px var(--shadow-strong);position:relative;overflow:hidden}
+.tool::after{content:"";position:absolute;top:-40%;right:-10%;width:340px;height:340px;border-radius:50%;background:radial-gradient(circle,rgba(212,176,90,.18),transparent 70%);pointer-events:none}
+.tool-head{display:flex;align-items:center;gap:.7em;margin-bottom:.2em}
+.tool-head .pill{font-family:var(--ui);font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#fff;background:var(--burgundy);padding:.4em .8em;border-radius:999px}
+.sec[data-app="c"] .tool-head .pill{background:var(--gold-deep)}
+.crumbs{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:1.1em;min-height:1.4em}
+.crumb{font-family:var(--ui);font-size:11px;font-weight:600;letter-spacing:.03em;color:var(--ink-soft);background:rgba(203,183,132,.25);border:1px solid var(--line);padding:.35em .7em;border-radius:999px}
+.crumb::before{content:"✓ ";color:var(--green)}
+.flow-q{font-family:var(--display);font-weight:600;font-size:clamp(22px,3vw,38px);line-height:1.12;margin-bottom:.1em}
+.flow-help{color:var(--ink-soft);font-size:.92em;margin-bottom:1em;max-width:48ch}
+.opts{display:grid;gap:12px;margin-top:1.1em}
+.opt{font-family:var(--serif);text-align:left;font-size:clamp(16px,1.7vw,21px);color:var(--ink);background:var(--card);border:1.5px solid var(--line-strong);border-radius:14px;padding:clamp(13px,1.5vw,18px) clamp(16px,1.8vw,22px);cursor:pointer;transition:.18s;display:flex;flex-direction:column;gap:.15em;box-shadow:0 6px 16px -12px var(--shadow)}
+.opt:hover{border-color:var(--burgundy);background:#fff;transform:translateX(5px);box-shadow:-4px 8px 22px -14px var(--shadow-strong)}
+.sec[data-app="c"] .opt:hover{border-color:var(--gold-deep)}
+.opt-sub{font-size:.74em;color:var(--ink-faint)}
+.flow-actions{display:flex;gap:10px;margin-top:1.3em}
+.btn-ghost{font-family:var(--ui);font-size:13px;font-weight:600;color:var(--ink-soft);background:transparent;border:1px solid var(--line-strong);border-radius:999px;padding:.55em 1.1em;cursor:pointer;transition:.15s}
+.btn-ghost:hover{background:var(--burgundy);color:#fff;border-color:var(--burgundy)}
+.calc-amount{display:flex;flex-direction:column;gap:.3em;margin-bottom:1.2em;padding-bottom:1.1em;border-bottom:1px dashed var(--line-strong)}
+.calc-amount label{font-family:var(--ui);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);font-weight:600}
+.calc-amount .amt{display:flex;align-items:center;gap:.3em;font-family:var(--display);font-size:clamp(22px,2.4vw,30px);color:var(--ink)}
+.calc-amount input{font-family:var(--display);font-size:inherit;color:var(--ink);background:transparent;border:none;border-bottom:2px solid var(--line-strong);width:8ch;padding:.1em .2em;outline:none}
+.calc-amount input:focus{border-color:var(--gold-deep)}
+
+/* verdict */
+.verdict{border-radius:16px;padding:clamp(20px,2.4vw,30px);border:1.5px solid;position:relative;animation:pop .5s cubic-bezier(.2,.8,.2,1)}
+@keyframes pop{from{opacity:0;transform:scale(.96)}to{opacity:1;transform:none}}
+.verdict .vbadge{font-family:var(--display);font-weight:700;font-size:clamp(28px,4vw,52px);line-height:1;margin-bottom:.25em}
+.verdict .vtitle{margin-bottom:.3em}
+.verdict .vbody{color:var(--ink-soft);font-size:clamp(16px,1.7vw,20px)}
+.verdict .vverse{margin-top:.9em;font-family:var(--ui);font-size:.74em;letter-spacing:.12em;text-transform:uppercase;font-weight:700;opacity:.85}
+.verdict .owed-row{margin-top:1em;padding:.8em 1em;background:rgba(255,255,255,.55);border-radius:10px;font-size:clamp(16px,1.7vw,21px)}
+.verdict .owed{font-family:var(--display);font-weight:700}
+.verdict.good{background:linear-gradient(165deg,rgba(61,106,69,.13),rgba(61,106,69,.05));border-color:var(--green)}
+.verdict.good .vbadge,.verdict.good .vverse{color:var(--green)}
+.verdict.warn{background:linear-gradient(165deg,rgba(179,133,31,.15),rgba(179,133,31,.05));border-color:var(--gold-deep)}
+.verdict.warn .vbadge,.verdict.warn .vverse{color:var(--gold-deep)}
+.verdict.bad{background:linear-gradient(165deg,rgba(124,31,44,.13),rgba(124,31,44,.05));border-color:var(--burgundy)}
+.verdict.bad .vbadge,.verdict.bad .vverse{color:var(--burgundy)}
+.verdict.info{background:linear-gradient(165deg,rgba(47,93,115,.13),rgba(47,93,115,.05));border-color:var(--blue)}
+.verdict.info .vbadge,.verdict.info .vverse{color:var(--blue)}
+.verdict.urgent{background:linear-gradient(165deg,rgba(138,16,32,.16),rgba(138,16,32,.06));border-color:var(--urgent)}
+.verdict.urgent .vbadge,.verdict.urgent .vverse{color:var(--urgent)}
+.verdict.urgent::before{content:"!";position:absolute;top:18px;right:22px;font-family:var(--display);font-weight:700;font-size:2em;color:var(--urgent);opacity:.4}
+
+/* ===== EXPANDABLE VIEWS (accordion) ===== */
+.views{display:grid;gap:14px}
+.view{background:linear-gradient(165deg,var(--card),var(--card-2));border:1px solid var(--line);border-radius:16px;overflow:hidden;transition:.25s;box-shadow:0 8px 22px -18px var(--shadow)}
+.view.open{border-color:var(--gold-deep);box-shadow:0 16px 40px -22px var(--shadow-strong)}
+.view.pick{border:2px solid var(--green)}
+.view-head{display:flex;align-items:center;gap:16px;padding:clamp(15px,1.8vw,22px);cursor:pointer}
+.view-head .vh-num{font-family:var(--display);font-weight:700;font-size:1.4em;color:var(--gold)}
+.view-head h4{flex:1}
+.view-head .chev{font-family:var(--ui);color:var(--ink-faint);transition:transform .3s;font-size:1.1em}
+.view.open .view-head .chev{transform:rotate(180deg)}
+.view-body{max-height:0;overflow:hidden;transition:max-height .4s ease;padding:0 clamp(15px,1.8vw,22px)}
+.view.open .view-body{max-height:320px;padding-bottom:clamp(15px,1.8vw,22px)}
+.view-body p{color:var(--ink-soft)}
+
+/* ===== INTERACTIVE VENN ===== */
+.venn-stage{display:grid;grid-template-columns:1.15fr .85fr;gap:clamp(20px,3vw,42px);align-items:center}
+.venn{position:relative;width:100%;aspect-ratio:16/10;margin:0 auto}
+.circle{position:absolute;top:50%;width:60%;aspect-ratio:1;border-radius:50%;transform:translateY(-50%);display:flex;align-items:center;justify-content:center;text-align:center;font-family:var(--display);mix-blend-mode:multiply;cursor:pointer;transition:opacity .3s,filter .3s}
+.c-church{left:0;background:radial-gradient(circle,rgba(124,31,44,.40),rgba(124,31,44,.22));border:2px solid var(--burgundy)}
+.c-state{right:0;background:radial-gradient(circle,rgba(47,93,115,.40),rgba(47,93,115,.22));border:2px solid var(--blue)}
+.circle .lbl b{font-weight:700;font-size:clamp(18px,2.1vw,28px);display:block;color:var(--ink)}
+.circle .lbl span{font-style:italic;font-size:.78em;color:var(--ink-soft)}
+.c-church .lbl{transform:translateX(-26%)}
+.c-state .lbl{transform:translateX(26%)}
+.venn.focus-church .c-state{opacity:.3;filter:grayscale(.4)}
+.venn.focus-state .c-church{opacity:.3;filter:grayscale(.4)}
+.overlap{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:3;font-family:var(--ui);font-size:.66em;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#fff;background:#5b3a3f;padding:.55em .8em;border-radius:10px;line-height:1.2;text-align:center;cursor:pointer;border:none;transition:box-shadow .3s,transform .2s}
+.overlap:hover{transform:translate(-50%,-50%) scale(1.05)}
+.venn.focus-both .overlap{box-shadow:0 0 0 4px rgba(212,176,90,.7),0 10px 24px -10px #000}
+.venn-side .picks{display:flex;flex-direction:column;gap:9px;margin-bottom:1.1em}
+.venn-pick{font-family:var(--ui);font-size:14px;font-weight:600;text-align:left;color:var(--ink-soft);background:var(--card);border:1.5px solid var(--line);border-radius:11px;padding:.7em .9em;cursor:pointer;transition:.15s;display:flex;align-items:center;gap:.6em}
+.venn-pick::before{content:"";width:11px;height:11px;border-radius:50%;background:var(--dot,var(--gold));flex:none}
+.venn-pick:hover{border-color:var(--line-strong)}
+.venn-pick.active{border-color:var(--burgundy);background:#fff;color:var(--ink);box-shadow:0 6px 16px -12px var(--shadow)}
+#venn-detail{background:linear-gradient(165deg,var(--card),var(--card-2));border:1px solid var(--line);border-left:4px solid var(--gold);border-radius:0 14px 14px 0;padding:clamp(16px,1.9vw,22px);min-height:160px}
+#venn-detail .vd-tag{font-family:var(--ui);font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--burgundy);margin-bottom:.5em}
+#venn-detail p{color:var(--ink-soft);margin-top:.3em;font-size:.95em}
+.abuse-note{margin-top:1.1em;background:rgba(138,16,32,.08);border:1px solid rgba(138,16,32,.3);border-radius:12px;padding:.9em 1.1em;font-size:.9em}
+.abuse-note b{color:var(--urgent)}
+.circle .lbl .ex{display:block;margin-top:.35em;font-family:var(--ui);font-size:clamp(10px,1vw,12px);font-style:normal;font-weight:600;letter-spacing:.01em;color:var(--ink-soft);line-height:1.25;max-width:15ch;margin-left:auto;margin-right:auto}
+.venn-pick{flex-wrap:wrap}
+.venn-pick .ex{flex-basis:100%;padding-left:1.6em;font-weight:500;font-size:12.5px;color:var(--ink-faint);font-style:italic;letter-spacing:0}
+.venn-example{margin-top:1em;background:linear-gradient(165deg,var(--card),var(--card-2));border:1px solid var(--line);border-left:4px solid #5b3a3f;border-radius:0 12px 12px 0;padding:.8em 1.05em;font-size:.9em;line-height:1.45;color:var(--ink-soft)}
+.venn-example b{color:var(--ink)}
+.venn-example .vx-tag{font-family:var(--ui);font-size:10.5px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:#5b3a3f;display:block;margin-bottom:.3em}
+
+/* ===== PREDICT THE VERDICT ===== */
+.poll-opts{display:flex;flex-direction:column;gap:11px}
+.poll-opt{display:flex;align-items:flex-start;gap:15px;width:100%;text-align:left;appearance:none;-webkit-appearance:none;background:var(--card);border:1.5px solid var(--line-strong);border-radius:14px;padding:clamp(12px,1.4vw,17px) clamp(15px,1.7vw,22px);font-family:var(--display);color:var(--ink);cursor:pointer;transition:.18s;box-shadow:0 8px 22px -18px var(--shadow)}
+.poll-opt:hover{border-color:var(--gold-deep);transform:translateX(4px)}
+.poll-opt .pa{font-family:var(--display);font-weight:700;color:#fff;background:var(--ink-faint);width:1.9em;height:1.9em;border-radius:50%;display:flex;align-items:center;justify-content:center;flex:none;font-size:clamp(15px,1.5vw,19px);margin-top:.05em;transition:.2s}
+.po-body{display:flex;flex-direction:column}
+.po-main{font-size:clamp(16px,1.8vw,23px);line-height:1.15}
+.po-main em{font-style:italic;color:var(--ink-soft);font-size:.84em}
+.po-note{font-family:var(--serif);font-size:.8em;color:var(--ink-faint);line-height:1.4;max-height:0;overflow:hidden;opacity:0;transition:max-height .45s ease,opacity .3s ease,margin .3s ease}
+.po-note b{color:var(--green);font-weight:600}
+.poll-opt.picked{border-color:var(--burgundy);background:#fff}
+.poll-opt.picked .pa{background:var(--burgundy)}
+#guess-opts.show-answer .poll-opt{cursor:default;transform:none}
+#guess-opts.show-answer .po-note{max-height:120px;opacity:1;margin-top:.35em}
+#guess-opts.show-answer .poll-opt[data-correct="0"]{opacity:.55}
+#guess-opts.show-answer .poll-opt[data-correct="1"]{opacity:1;border-color:var(--green);background:linear-gradient(165deg,rgba(61,106,69,.13),rgba(61,106,69,.04));box-shadow:0 16px 38px -20px rgba(61,106,69,.55)}
+#guess-opts.show-answer .poll-opt[data-correct="1"] .pa{background:var(--green)}
+.reveal-btn{font-family:var(--ui);font-size:14px;font-weight:700;color:#fff;background:var(--burgundy);border:none;border-radius:999px;padding:.8em 1.5em;cursor:pointer;transition:.18s;box-shadow:0 10px 24px -12px var(--burgundy)}
+.reveal-btn:hover{background:#641824;transform:translateY(-1px)}
+.reveal-btn:disabled{opacity:.5;cursor:default;transform:none;box-shadow:none}
+.reset-btn{font-family:var(--ui);font-size:14px;font-weight:700;color:var(--burgundy);background:transparent;border:1.5px solid var(--burgundy);border-radius:999px;padding:.74em 1.35em;cursor:pointer;transition:.18s}
+.reset-btn:hover{background:var(--burgundy);color:#fff;transform:translateY(-1px)}
+.reset-btn[hidden]{display:none}
+.ctx-note{margin-top:18px;background:linear-gradient(170deg,rgba(203,183,132,.16),rgba(203,183,132,.05));border:1px solid var(--line);border-left:4px solid var(--burgundy);border-radius:14px;padding:1em 1.15em}
+.ctx-note .ctx-h{font-family:var(--ui);font-size:11px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--burgundy);margin-bottom:.55em}
+.ctx-note p{font-size:.88em;line-height:1.5;margin:.5em 0 0;color:var(--ink)}
+.ctx-note p:first-of-type{margin-top:0}
+#guess-explain{margin-top:1.1em}
+.explain-card{background:linear-gradient(165deg,rgba(61,106,69,.13),rgba(61,106,69,.04));border:1.5px solid var(--green);border-radius:16px;padding:clamp(16px,2vw,26px);animation:pop .5s cubic-bezier(.2,.8,.2,1)}
+.explain-card .eh{font-family:var(--display);font-weight:700;font-size:clamp(24px,3vw,38px);color:var(--green);line-height:1;margin-bottom:.3em}
+.explain-card p{color:var(--ink-soft)}
+.explain-card .punch{margin-top:.7em;font-family:var(--display);font-style:italic;font-size:clamp(17px,1.9vw,24px);color:var(--ink)}
+
+/* ===== WORKED EXAMPLE ===== */
+.exgrid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-top:1.1em}
+.excard{position:relative;background:linear-gradient(165deg,var(--card),var(--card-2));border:1px solid var(--line);border-top:5px solid var(--c,var(--gold));border-radius:14px;padding:clamp(13px,1.4vw,18px);box-shadow:0 10px 26px -18px var(--shadow);display:flex;flex-direction:column;gap:.3em;transition:transform .2s,box-shadow .2s}
+.excard:hover{transform:translateY(-4px);box-shadow:0 18px 36px -20px var(--shadow-strong)}
+.excard .amt{font-family:var(--display);font-weight:700;font-size:clamp(22px,2.3vw,33px);color:var(--c,var(--ink));line-height:1}
+.excard .sc{font-family:var(--display);font-weight:600;font-size:clamp(15px,1.45vw,19px);line-height:1.12;color:var(--ink)}
+.excard .wy{font-size:.8em;color:var(--ink-soft);line-height:1.35}
+.excard .vs{margin-top:auto;padding-top:.4em;font-family:var(--ui);font-size:.66em;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--gold-deep)}
+.exfork{display:inline-flex;align-items:center;gap:.5em;font-family:var(--ui);font-size:.8em;font-weight:600;letter-spacing:.04em;color:var(--ink-soft);background:rgba(203,183,132,.22);border:1px solid var(--line);border-radius:999px;padding:.4em .9em;margin-top:.7em}
+.exfork b{color:var(--burgundy)}
+@media(max-width:900px){.exgrid{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:560px){.exgrid{grid-template-columns:1fr 1fr}}
+
+/* ===== FUN GIFS ===== */
+.sec-head{display:flex;justify-content:space-between;align-items:flex-start;gap:clamp(18px,2.6vw,38px);flex-wrap:nowrap;margin-bottom:.9em}
+.sec-head>div:first-child{flex:1 1 auto;min-width:0}
+.sec-head .gif-fig{flex:0 0 auto;align-self:flex-start;margin-top:.15em}
+.gif-fig{display:inline-block;max-width:170px;margin:0;border:5px solid #fff;border-radius:14px;overflow:hidden;background:#fff;box-shadow:0 16px 38px -20px var(--shadow-strong);transform:rotate(-1.6deg);transition:transform .25s}
+.gif-fig:hover{transform:rotate(0) scale(1.03)}
+.gif-fig img{display:block;width:100%;height:auto}
+.gif-fig figcaption{font-family:var(--ui);font-size:11px;letter-spacing:.03em;color:var(--ink-soft);font-style:italic;text-align:center;padding:6px 8px 5px;background:#fff}
+.explain-card{display:flex;gap:22px;align-items:center;flex-wrap:wrap}
+.explain-card .ec-text{flex:1;min-width:260px}
+@media(max-width:820px){.gif-fig{max-width:140px}.sec-head{align-items:flex-start;flex-wrap:wrap}}
+
+/* ===== BIG QUOTE ===== */
+.bigquote{text-align:center;max-width:920px;margin:0 auto}
+.bigquote .qmark{font-family:var(--display);font-size:5em;line-height:.4;color:var(--gold-soft);height:.5em;display:block}
+.bigquote p{font-family:var(--display);font-style:italic;font-size:clamp(24px,3.6vw,46px);line-height:1.24}
+.bigquote .by{margin-top:1em;font-family:var(--ui);letter-spacing:.18em;text-transform:uppercase;font-size:.78em;color:var(--burgundy);font-weight:700}
+
+/* ===== DIVIDER LETTER ===== */
+.divider{text-align:center;align-items:center}
+.divider .big{font-family:var(--display);font-weight:700;font-size:clamp(120px,28vw,360px);line-height:.8;color:var(--burgundy);opacity:.13}
+.sec[data-app="c"] .divider .big{color:var(--gold-deep);opacity:.18}
+.divider .ov{margin-top:-.5em}
+.divider .ssub{font-family:var(--display);font-style:italic;font-size:clamp(18px,2.4vw,28px);color:var(--ink-soft);margin-top:.3em}
+
+/* two-up split */
+.split{display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(22px,3vw,48px);align-items:center}
+.split.rev{grid-template-columns:.95fr 1.05fr}
+
+/* ===== CHROME ===== */
+#bar{position:fixed;left:0;top:0;height:4px;z-index:60;background:linear-gradient(90deg,var(--gold),var(--burgundy));width:0;box-shadow:0 0 8px rgba(124,31,44,.4)}
+#dots{position:fixed;right:18px;top:50%;transform:translateY(-50%);z-index:55;display:flex;flex-direction:column;gap:11px}
+#dots button{width:11px;height:11px;border-radius:50%;border:1.5px solid var(--line-strong);background:transparent;cursor:pointer;padding:0;transition:.2s;position:relative}
+#dots button[data-app="c"]{border-color:var(--gold-deep)}
+#dots button[data-app="d"]{border-color:var(--burgundy)}
+#dots button.active{transform:scale(1.5)}
+#dots button[data-app="c"].active{background:var(--gold-deep)}
+#dots button[data-app="d"].active{background:var(--burgundy)}
+#dots button.active:not([data-app]){background:var(--ink-soft)}
+#dots button .dl{position:absolute;right:20px;top:50%;transform:translateY(-50%);font-family:var(--ui);font-size:11px;white-space:nowrap;background:rgba(43,38,32,.92);color:#f0e6cf;padding:.35em .7em;border-radius:7px;opacity:0;pointer-events:none;transition:.18s}
+#dots button:hover .dl{opacity:1}
+#hint{position:fixed;left:16px;bottom:16px;z-index:55;font-family:var(--ui);font-size:12px;color:var(--ink-faint);background:rgba(251,245,228,.72);border:1px solid var(--line);border-radius:10px;padding:7px 11px;backdrop-filter:blur(6px)}
+#hint kbd{font-size:11px;background:var(--card);border:1px solid var(--line-strong);border-bottom-width:2px;border-radius:5px;padding:1px 6px;color:var(--ink-soft);font-weight:700}
+#full{position:fixed;right:16px;bottom:16px;z-index:55;font-family:var(--ui);font-size:18px;color:var(--ink-soft);background:rgba(251,245,228,.82);border:1px solid var(--line-strong);border-radius:10px;width:38px;height:38px;cursor:pointer;backdrop-filter:blur(6px)}
+#full:hover{background:var(--burgundy);color:#fff;border-color:var(--burgundy)}
+
+@media(max-width:820px){
+  .g3,.g2,.split,.split.rev,.venn-stage{grid-template-columns:1fr}
+  #hint{display:none}
+  .venn{aspect-ratio:auto;display:flex;flex-direction:column;gap:10px}
+  .circle{position:relative;top:auto;transform:none;width:100%;aspect-ratio:auto;border-radius:14px;padding:20px;mix-blend-mode:normal}
+  .c-church .lbl,.c-state .lbl{transform:none}
+  .overlap{position:relative;left:auto;top:auto;transform:none;margin:0 auto;display:inline-block}
+  #dots{display:none}
+}
+/* ===== ACCESSIBILITY ===== */
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+a:focus-visible,button:focus-visible,.flip:focus-visible,[tabindex]:focus-visible{outline:3px solid var(--gold-deep);outline-offset:3px;border-radius:6px}
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}
+  html{scroll-behavior:auto}
+  .reveal{opacity:1!important;transform:none!important}
+  .stagger.in>*{opacity:1!important;animation:none!important}
+  .hero .booktag,.hero h1,.hero .sub,.hero .meta,.cue{opacity:1!important;animation:none!important}
+  .cue .chev{animation:none!important}
+}
+
+@media print{
+  #bar,#dots,#hint,#full{display:none!important}
+  body{background:#fff}body::before{display:none}
+  .sec{min-height:auto;page-break-inside:avoid;padding:24px 30px;border-bottom:1px solid #ddd}
+  .reveal{opacity:1!important;transform:none!important}
+}
+</style>
+</head>
+<body>
+<div id="bar"></div>
+<div id="sr-live" class="sr-only" aria-live="polite" aria-atomic="true"></div>
+<nav id="dots" aria-label="Slide navigation"></nav>
+<div id="hint"><kbd>↓</kbd> <kbd>↑</kbd> or scroll &nbsp;·&nbsp; <kbd>F</kbd> fullscreen</div>
+<button id="full" title="Fullscreen (F)">⤢</button>
+
+<!-- 1 HERO -->
+<section class="sec hero" data-nav="Home">
+  <div class="wrap">
+    <div class="booktag">Christian Mediation · Alternative Dispute Resolution</div>
+    <h1>The Peacemaker</h1>
+    <div class="sub">An interactive guide to biblical restitution and conflict resolution, based on Ken Sande's <em>The Peacemaker</em></div>
+    <div class="hero-ctas">
+      <a href="#calc" class="hero-cta primary">Restitution Calculator</a>
+      <a href="#wizard" class="hero-cta secondary">Court Decision Wizard</a>
+    </div>
+    <div class="meta">
+      <div class="src">Based on Appendices C &amp; D · <em>The Peacemaker</em>, 3rd ed. · Ken Sande</div>
+    </div>
+    <div class="cue">Explore below<span class="chev">&#x2304;</span></div>
+  </div>
+</section>
+
+<!-- 2 OVERVIEW -->
+<section class="sec" data-nav="Overview">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div>
+        <div class="eyebrow">Two appendices, one question</div>
+        <h2 style="margin-bottom:0">Justice <em>with</em> mercy — not one or the other</h2>
+      </div>
+      <figure class="gif-fig" data-gif="overview"><img alt="scales of justice tipping"><figcaption>justice, meet mercy</figcaption></figure>
+    </div>
+    <div class="rule reveal"></div>
+    <div class="grid g2 stagger reveal" style="margin-top:.6em">
+      <div class="card accent">
+        <span class="tag no" style="background:rgba(179,133,31,.16);color:var(--gold-deep)">Appendix C</span>
+        <h3 style="margin-top:.5em">Principles of Restitution</h3>
+        <p class="muted">When you’ve caused harm, what does it take to <em>make it right</em>? You’ll get a calculator that turns the Bible’s rules into a live answer.</p>
+      </div>
+      <div class="card accent">
+        <span class="tag no" style="background:rgba(124,31,44,.14);color:var(--burgundy)">Appendix D</span>
+        <h3 style="margin-top:.5em">When Is It Right to Go to Court?</h3>
+        <p class="muted">Built on 1 Corinthians 6. You’ll get a decision wizard that walks Sande’s reasoning to a verdict.</p>
+      </div>
+    </div>
+    <p class="lead reveal" style="margin-top:1.3em">Both sit in <strong>Part 4 — "Go and Be Reconciled."</strong> Both answer the same instinct — <em>"I want what I’m owed"</em> — by refusing to let justice and grace compete.</p>
+  </div>
+</section>
+
+<!-- 2.5 PREDICT THE VERDICT (presenter-run, no live voting) -->
+<section class="sec" data-nav="Predict">
+  <div class="wrap">
+    <div class="eyebrow reveal">A case for the bench · you decide</div>
+    <h2 class="reveal" style="margin-bottom:.55em">The Case of the Stolen Phone</h2>
+    <div class="casefile reveal">
+      <div class="cf-content">
+        <div class="cf-cap">Docket · Restitution before the Law of Moses</div>
+        <div class="cf-row"><span class="cf-tag">Facts</span><p><strong>Person A</strong> takes <strong>Person B</strong>’s iPhone 17 Pro — worth <strong>$1,000</strong> — and sells it to someone else. Person A is caught, but won’t confess and <em>refuses to make it right</em>.</p></div>
+        <div class="cf-row q"><span class="cf-tag">Question presented</span><p>Under the Law of Moses, what must Person A repay?</p></div>
+      </div>
+      <figure class="cf-exhibit" data-gif="casegif"><img alt="sneaking cartoon thief"><figcaption>Person A, allegedly</figcaption></figure>
+    </div>
+    <p class="lead reveal" style="margin-top:1em">Render your verdict — then we’ll check it against the text.</p>
+    <div class="poll-opts reveal" id="guess-opts" style="margin-top:1.3em">
+      <button class="poll-opt" data-correct="0"><span class="pa">A</span><span class="po-body"><span class="po-main">$1,000 <em>— just give it back</em></span><span class="po-note">"Simple restitution" — but that’s only for an <em>accident</em>. Exod. 22:5–6</span></span></button>
+      <button class="poll-opt" data-correct="0"><span class="pa">B</span><span class="po-body"><span class="po-main">$1,200 <em>— plus 20%</em></span><span class="po-note">Only if he had <em>repented before being caught</em>. Lev. 6:1–5</span></span></button>
+      <button class="poll-opt" data-correct="1"><span class="pa">C</span><span class="po-body"><span class="po-main">$4,000 <em>— four times</em></span><span class="po-note">Sold the goods + unrepentant — <b>this is the one.</b> Exod. 22:1</span></span></button>
+      <button class="poll-opt" data-correct="0"><span class="pa">D</span><span class="po-body"><span class="po-main">$5,000 <em>— five times</em></span><span class="po-note">Reserved for things that are <em>hard to replace</em>. Exod. 22:1</span></span></button>
+    </div>
+    <div class="reveal" style="margin-top:1.2em;display:flex;align-items:center;gap:14px;flex-wrap:wrap">
+      <button id="guess-reveal" class="reveal-btn">Reveal the ruling →</button>
+      <button id="guess-reset" class="reset-btn" hidden>↺ Reset</button>
+    </div>
+    <div id="guess-explain"></div>
+  </div>
+</section>
+
+<!-- 3 APPENDIX C DIVIDER + INTRO -->
+<section class="sec divider" data-app="c" data-nav="Restitution">
+  <div class="wrap">
+    <div class="big reveal">C</div>
+    <div class="ov">
+      <div class="eyebrow reveal" style="justify-content:center">Appendix C</div>
+      <h2 class="reveal">Principles of Restitution</h2>
+      <div class="ssub reveal">"Make full restitution for his wrong." — Numbers 5:7</div>
+    </div>
+  </div>
+</section>
+
+<!-- 4 C: WHAT / WHY -->
+<section class="sec" data-app="c" data-nav="What &amp; Why">
+  <div class="wrap">
+    <div class="split">
+      <div>
+        <div class="eyebrow reveal">What it is &amp; why it matters</div>
+        <h2 class="reveal">More than "sorry" — it’s repair</h2>
+        <div class="rule reveal"></div>
+        <p class="lead reveal">Restitution means taking concrete action to restore the person you harmed toward where they were. Repentance produces <em>action</em>, not just words — and it does three kinds of good. <span class="ref">Num. 5:7</span></p>
+        <div class="grid g3 stagger reveal" style="margin-top:1.2em">
+          <div class="card"><span class="num">1</span><h4>Restores the victim</h4><p class="muted" style="font-size:.85em">repairs the loss, not just the feeling</p></div>
+          <div class="card"><span class="num">2</span><h4>Protects society</h4><p class="muted" style="font-size:.85em">makes wrongdoing unprofitable</p></div>
+          <div class="card"><span class="num">3</span><h4>Frees the offender</h4><p class="muted" style="font-size:.85em">a real path back to the relationship</p></div>
+        </div>
+      </div>
+      <div class="reveal">
+        <div class="flips">
+          <div class="flip" tabindex="0">
+            <div class="flip-inner">
+              <div class="flip-face flip-front"><div class="cite">Luke 19 · Zacchaeus</div><div class="teaser">A cheating tax collector who met Jesus</div><div class="hintf">Tap: what he did ↻</div></div>
+              <div class="flip-face flip-back"><div class="verse">"Here and now I give half of my possessions to the poor, and if I have cheated anybody… I will pay back four times the amount."</div><div class="cite">Luke 19:8 — 4× the law required</div></div>
+            </div>
+          </div>
+          <div class="flip" tabindex="0">
+            <div class="flip-inner">
+              <div class="flip-face flip-front"><div class="cite">Numbers 5:7 · The rule</div><div class="teaser">Confess first, then repay</div><div class="hintf">Tap to reveal ↻</div></div>
+              <div class="flip-face flip-back"><div class="verse">"[He] must confess the sin he has committed… and make full restitution for his wrong."</div><div class="cite">Numbers 5:7</div></div>
+            </div>
+          </div>
+        </div>
+        <p class="muted" style="font-size:.82em;margin-top:.9em;text-align:center">Zacchaeus didn’t just say sorry — he repaid <strong>four times over</strong>, far beyond the law. The <em>heart</em> changes first; the wallet follows.</p>
+        <figure class="gif-fig" data-gif="zacc" style="display:block;margin:.9em auto 0"><img alt="counting out cash"><figcaption>…then the wallet follows</figcaption></figure>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 5 C: THE SCALE -->
+<section class="sec" data-app="c" data-nav="The Scale">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div>
+        <div class="eyebrow">The graduated scale</div>
+        <h2 style="margin-bottom:0">The penalty rises with intent — and <em>falls</em> with repentance</h2>
+      </div>
+      <figure class="gif-fig" data-gif="scale"><img alt="referee calling a penalty"><figcaption>penalty rising…</figcaption></figure>
+    </div>
+    <p class="muted reveal" style="margin:.2em 0 .1em;font-size:.9em">👆 Tap any rung for the Bible story behind it.</p>
+    <div class="scale reveal">
+      <div class="rung" style="--c:var(--green);--w:20%" data-rung tabindex="0" role="button" aria-expanded="false"><div class="fill"></div><div class="rung-main"><div class="mult">repair</div><div class="rb"><h4>Unintentional damage <span class="rung-chev">⌄</span></h4><p>"Simple restitution" — repair or replace what was lost.</p></div><div class="ref">Exod. 22:5–6</div></div><div class="rung-story"><p><b>The case</b> — your livestock strays into a neighbor’s field, or a fire you lit spreads to his grain. You repay from your own best produce — no theft, just responsibility.</p><p><b>Story</b> — Jacob bore his flock’s losses himself rather than charge them to Laban. <span class="sv">Gen. 31:39</span></p></div></div>
+      <div class="rung" style="--c:#8a8a30;--w:24%" data-rung tabindex="0" role="button" aria-expanded="false"><div class="fill"></div><div class="rung-main"><div class="mult">+20%</div><div class="rb"><h4>Intentional — but repented <em>before</em> being caught <span class="rung-chev">⌄</span></h4><p>Pay the value plus a one-fifth penalty. Voluntary repentance is rewarded.</p></div><div class="ref">Lev. 6:1–5</div></div><div class="rung-story"><p><b>The case</b> — you lied about a deposit or kept what wasn’t yours, then <em>conscience caught you</em>. Return it + a fifth + a guilt offering: repair to the neighbor, atonement before God. <span class="sv">Num. 5:5–8</span></p><p><b>Story</b> — Zacchaeus came forward on his own — no one had caught him. <span class="sv">Luke 19:8</span></p></div></div>
+      <div class="rung" style="--c:var(--gold-deep);--w:40%" data-rung tabindex="0" role="button" aria-expanded="false"><div class="fill"></div><div class="rung-main"><div class="mult">2×</div><div class="rb"><h4>Caught with the goods (intact) <span class="rung-chev">⌄</span></h4><p>Return the property <em>and</em> its equal value.</p></div><div class="ref">Exod. 22:4</div></div><div class="rung-story"><p><b>The case</b> — the stolen animal is found alive in your hands, so you pay it back <em>double</em>. You lose exactly what you tried to take — the same loss falls back on the thief. <span class="sv">Exod. 22:4, 9</span></p></div></div>
+      <div class="rung" style="--c:var(--burgundy-soft);--w:80%" data-rung tabindex="0" role="button" aria-expanded="false"><div class="fill"></div><div class="rung-main"><div class="mult">4×</div><div class="rb"><h4>Caught after disposing of the goods <span class="rung-chev">⌄</span></h4><p>Repay at least four times the value.</p></div><div class="ref">Exod. 22:1</div></div><div class="rung-story"><p><b>The story</b> — Nathan’s parable: a rich man kills a poor man’s only lamb. David erupts, <em>"He must pay four times over!"</em> — quoting <em>this</em> law, and unknowingly sentencing himself. <span class="sv">2 Sam. 12:1–6</span></p><p><b>And</b> — Zacchaeus repaid four times over, by choice. <span class="sv">Luke 19:8</span></p></div></div>
+      <div class="rung" style="--c:var(--burgundy);--w:100%" data-rung tabindex="0" role="button" aria-expanded="false"><div class="fill"></div><div class="rung-main"><div class="mult">5×</div><div class="rb"><h4>Stolen property hard to replace <span class="rung-chev">⌄</span></h4><p>Repay five times its value.</p></div><div class="ref">Exod. 22:1</div></div><div class="rung-story"><p><b>The case</b> — steal and slaughter an <em>ox</em>, repay fivefold. The ox was a working animal; losing it cost a family its plowing and its livelihood.</p><p><b>A mercy</b> — a classic rabbinic reading spares the sheep-thief a notch (4×): he had to haul the sheep off on his own shoulders. <span class="sv">b. Bava Kamma 79b</span></p></div></div>
+    </div>
+    <div class="scale-axis reveal"><span>← restoration</span><span>deterrence →</span></div>
+    <div class="author-quote reveal" style="margin-top:1.4em">
+      <blockquote>"These penalties are obviously designed to discourage deliberate wrongs and to encourage prompt repentance and confession."</blockquote>
+      <div class="aq-by">— Ken Sande, <b>The Peacemaker</b> (3rd ed.), Appendix C</div>
+    </div>
+  </div>
+</section>
+
+<!-- 5.5 C: WORKED EXAMPLE -->
+<section class="sec" data-app="c" data-nav="Worked Example">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div>
+        <div class="eyebrow">A worked example</div>
+        <h2 style="margin-bottom:0">One $1,000 tool — five very different bills</h2>
+      </div>
+      <figure class="gif-fig" data-gif="example"><img alt="counting cash"><figcaption>counting what you owe…</figcaption></figure>
+    </div>
+    <p class="lead reveal" style="margin-top:.3em">Picture your friend’s <strong>$1,000 iPhone 17 Pro</strong>. The same object, five honest scenarios — and what you owe runs from <em>nothing extra</em> all the way to <em>five times its value</em>.</p>
+    <div class="exfork reveal">It all turns on one fork:&nbsp; <b>did you mean to?</b></div>
+    <div class="exgrid reveal">
+      <div class="excard" style="--c:var(--green)"><div class="amt">$1,000</div><div class="sc">Accident</div><div class="wy">You knocked it off the table. No theft — simply repair or replace it. No penalty.</div><div class="vs">Exod. 22:5–6</div></div>
+      <div class="excard" style="--c:#8a8a30"><div class="amt">$1,200</div><div class="sc">Stole it — confessed first</div><div class="wy">You took it, but repented and resolved to repay <em>before</em> being caught: value + 20%.</div><div class="vs">Lev. 6:1–5</div></div>
+      <div class="excard" style="--c:var(--gold-deep)"><div class="amt">$2,000</div><div class="sc">Caught with it</div><div class="wy">Apprehended, tool still intact: return it <em>and</em> pay its value over again.</div><div class="vs">Exod. 22:4</div></div>
+      <div class="excard" style="--c:var(--burgundy-soft)"><div class="amt">$4,000</div><div class="sc">Already sold it</div><div class="wy">Caught only after you’d disposed of it: four times the value.</div><div class="vs">Exod. 22:1</div></div>
+      <div class="excard" style="--c:var(--burgundy)"><div class="amt">$5,000</div><div class="sc">It was irreplaceable</div><div class="wy">A discontinued, hard-to-replace model: five times the value.</div><div class="vs">Exod. 22:1</div></div>
+    </div>
+    <p class="reveal" style="margin-top:1.2em;font-family:var(--display);font-style:italic;font-size:clamp(18px,2.1vw,26px);color:var(--ink);max-width:62ch">Same tool. Same $1,000. The bill runs from <strong>$1,200 to $5,000</strong> — set by intent, and by whether you came clean <em>before</em> you were caught. That’s the genius of the law: deliberate wrong becomes <em>unprofitable</em>, and early repentance pays.</p>
+  </div>
+</section>
+
+<!-- 6 C: CALCULATOR -->
+<section class="sec" id="calc" data-app="c" data-nav="Calculator">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div>
+        <div class="eyebrow">Try it · Interactive</div>
+        <h2 style="margin-bottom:.2em">The Restitution Calculator</h2>
+      </div>
+      <figure class="gif-fig" data-gif="calc"><img alt="confused math lady meme"><figcaption>calculating your 4×…</figcaption></figure>
+    </div>
+    <p class="lead reveal" style="margin-bottom:.5em">Scripture never sets one flat fine. What you owe <em>rises and falls</em> with intent, repentance, and circumstance — and the rules are scattered across Exodus, Leviticus, and Numbers. <strong>This tool gathers them into one place.</strong></p>
+    <p class="muted reveal" style="margin-bottom:1em;font-size:.92em"><strong>What it’s for:</strong> describe a real situation and it returns the exact restitution Scripture requires — with the verse behind it. The point: "making it right" isn’t guesswork or a flat fee — the amount <em>tracks the heart</em>.</p>
+    <div class="tool reveal">
+      <div class="tool-head"><span class="pill">Appendix C</span><span class="muted" style="font-size:.85em">Describe the situation → see the biblical restitution owed.</span></div>
+      <div id="calc"></div>
+    </div>
+  </div>
+</section>
+
+<!-- 7 C: FORGIVENESS -->
+<section class="sec" data-app="c" data-nav="Forgiveness">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div>
+        <div class="eyebrow">The key tension</div>
+        <h2 style="margin-bottom:0">Forgiveness and restitution are <em>not</em> opposites</h2>
+      </div>
+      <figure class="gif-fig" data-gif="forgive"><img alt="handshake"><figcaption>are we good?</figcaption></figure>
+    </div>
+    <div class="rule reveal"></div>
+    <div class="grid g2 stagger reveal" style="margin-top:.3em">
+      <div class="card">
+        <h3>What forgiveness <em>is</em></h3>
+        <p class="muted" style="margin-top:.3em">You won’t <strong>dwell</strong> on the wrong, <strong>use it</strong> against the person, <strong>gossip</strong> about it, or <strong>let it stand</strong> between you. But being forgiven doesn’t automatically erase the duty to <em>repair the damage</em>. <span class="ref">Num. 5:5–8</span></p>
+      </div>
+      <div class="card accent">
+        <h3>Mercy may still waive it</h3>
+        <p class="muted" style="margin-top:.3em">The injured party <em>can</em> release the debt. <span class="ref">Matt. 18:22–27</span> Yet making restitution often <strong>helps the offender</strong> — it shows a changed heart and ingrains the lesson. <span class="ref">Luke 19:8–9</span></p>
+      </div>
+    </div>
+    <div class="bigquote reveal" style="margin-top:1.6em"><p style="font-size:clamp(20px,2.8vw,34px)">"Blending mercy with justice is a powerful way to restore peace and glorify God."</p><div class="by">— Ken Sande, The Peacemaker · Appendix C, closing line</div></div>
+    <div class="discuss reveal">
+      <div class="discuss-label">For discussion</div>
+      <div class="dq"><span class="dq-n">1</span><p>When someone says <em>"I’m sorry,"</em> what makes you actually <em>believe</em> them? Is saying sorry ever enough on its own — or do you need to see them <em>do</em> something about it?</p></div>
+      <div class="dq"><span class="dq-n">2</span><p>Have you ever forgiven someone but still felt, deep down, that they <em>owed</em> you something? Is it fair to want them to make it right — or does real forgiveness mean letting it all go?</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 8 APPENDIX D DIVIDER + TEXT -->
+<section class="sec divider" data-app="d" data-nav="Lawsuits">
+  <div class="wrap">
+    <div class="big reveal">D</div>
+    <div class="ov">
+      <div class="eyebrow reveal" style="justify-content:center">Appendix D</div>
+      <h2 class="reveal">When Is It Right to Go to Court?</h2>
+      <div class="ssub reveal">Everything turns on one passage: 1 Corinthians 6:1–8</div>
+    </div>
+  </div>
+</section>
+
+<!-- 9 D: HEART VS COURT -->
+<section class="sec" data-app="d" data-nav="Heart vs Court">
+  <div class="wrap">
+    <div class="split rev">
+      <div class="reveal">
+        <div class="flips" style="grid-template-columns:1fr">
+          <div class="flip" tabindex="0" style="height:200px">
+            <div class="flip-inner">
+              <div class="flip-face flip-front"><div class="cite">1 Corinthians 6:1</div><div class="teaser">Brother v. brother</div><div class="hintf">Tap to reveal ↻</div></div>
+              <div class="flip-face flip-back"><div class="verse">"If any of you has a dispute with another, do you dare to take it before the ungodly for judgment instead of before the Lord’s people?"</div><div class="cite">1 Cor. 6:1</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="ctx-note reveal">
+          <div class="ctx-h">The setting · Corinth, ~AD 55</div>
+          <p>A wealthy, litigious Roman colony where a lawsuit was also a <em>status game</em> — a way to publicly humiliate a rival. Right after confronting a <strong>sex scandal in the church</strong> (ch. 5), Paul rounds on believers <strong>dragging each other before pagan judges</strong> over money and property.</p>
+          <p>So it isn’t "Paul’s scandal" — it’s the Corinthians suing one another. And his point isn’t "avoid <em>embarrassing</em> suits," but <strong>"Why not rather be wronged?"</strong> <span class="ref">1 Cor. 6:7</span></p>
+        </div>
+      </div>
+      <div>
+        <div class="sec-head reveal">
+          <div>
+            <div class="eyebrow">Only scandalous lawsuits?</div>
+            <h2 style="margin-bottom:0">A court can’t reach the <em>heart</em></h2>
+          </div>
+          <figure class="gif-fig" data-gif="heart"><img alt="hand on heart"><figcaption>no gavel reaches here</figcaption></figure>
+        </div>
+        <div class="rule reveal"></div>
+        <p class="reveal">Some say 1 Cor. 6 only bans <em>embarrassing</em> suits. Sande says that misses the point — almost every lawsuit between believers carries sin underneath, and a courtroom is powerless there.</p>
+        <div class="grid g2 stagger reveal" style="margin-top:1em;gap:12px">
+          <div class="card"><h4 style="color:var(--blue)">A court CAN rule on…</h4><p class="muted" style="font-size:.85em">contracts · property · damages · legal rights</p></div>
+          <div class="card"><h4 style="color:var(--burgundy)">Only the church reaches…</h4><p class="muted" style="font-size:.85em">bitterness · dishonesty · pride · refusing to repair <span class="ref">Jas. 4:1–3</span></p></div>
+        </div>
+        <div class="author-quote reveal" style="margin-top:1.1em">
+              <blockquote>"Civil courts are completely powerless to resolve the root causes of a lawsuit… Only the church can authoritatively carry out the ministry that is needed to thoroughly resolve a lawsuit between believers."</blockquote>
+          <div class="aq-by">— Ken Sande, <b>The Peacemaker</b> (3rd ed.), Appendix D</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 10 D: THREE VIEWS -->
+<section class="sec" data-app="d" data-nav="Three Views">
+  <div class="wrap">
+    <div class="sec-head reveal" style="margin-bottom:.7em">
+      <div>
+        <div class="eyebrow">Who does 1 Cor. 6 bind?</div>
+        <h2 style="margin-bottom:0">Three views — tap to see Sande’s reasoning</h2>
+      </div>
+      <figure class="gif-fig" data-gif="views"><img alt="which one to choose"><figcaption>okay… which one?</figcaption></figure>
+    </div>
+    <div class="views reveal">
+      <div class="view" data-view>
+        <div class="view-head"><span class="vh-num">1</span><h4>Forbids suing <em>anyone</em> — Christian or not</h4><span class="tag no">Rejected</span><span class="chev">⌄</span></div>
+        <div class="view-body"><p>The passage is explicitly internal — a "brother… before unbelievers," judging "between believers." Paul says the church doesn’t judge outsiders, so this can’t mean all lawsuits. <span class="ref">1 Cor. 5:12</span></p></div>
+      </div>
+      <div class="view" data-view>
+        <div class="view-head"><span class="vh-num">2</span><h4>Forbids <em>any &amp; all</em> suits between professing Christians</h4><span class="tag no">Rejected</span><span class="chev">⌄</span></div>
+        <div class="view-body"><p>God established civil government and expects His people to respect it. An absolute ban contradicts the rest of Scripture. <span class="ref">Rom. 13:1–7 · 1 Pet. 2:13–14</span></p></div>
+      </div>
+      <div class="view pick" data-view>
+        <div class="view-head"><span class="vh-num">3</span><h4>Forbids suing a believer in <strong>good standing</strong> in a faithful church</h4><span class="tag yes">Sande’s view</span><span class="chev">⌄</span></div>
+        <div class="view-body"><p>The protection attaches to church membership. If that person is removed by discipline, they’re no longer a "brother… among you," and 1 Cor. 6 no longer shields them. This is the hinge of the whole appendix. <span class="ref">1 Cor. 5:1–13 · Matt. 18:17</span></p></div>
+      </div>
+    </div>
+    <div class="author-quote reveal" style="margin-top:1.2em">
+      <blockquote>"It would be better to be wronged or cheated than to sue a person who is part of the church — that is, someone who is ‘among you.’"</blockquote>
+      <div class="aq-by">— Ken Sande, <b>The Peacemaker</b> (3rd ed.), Appendix D · on 1 Cor. 6:5, 7</div>
+    </div>
+  </div>
+</section>
+
+<!-- 10.5 D: DECISION TREE (wizard map) -->
+<section class="sec" data-app="d" data-nav="Decision Tree">
+  <div class="wrap">
+    <div class="sec-head reveal" style="margin-bottom:.12em">
+      <div>
+        <div class="eyebrow">The logic, mapped</div>
+        <h2 style="margin-bottom:0">The decision, as a tree</h2>
+      </div>
+      <figure class="gif-fig" data-gif="tree"><img alt="lost in a maze"><figcaption>which way to court?</figcaption></figure>
+    </div>
+    <p class="muted reveal" style="margin-bottom:.7em;font-size:.92em">A lawsuit has to run the whole gauntlet — every gate has an <em>off-ramp</em>, and court is the <strong>last</strong> door. <span style="color:var(--ink-faint)">(Next slide: walk it yourself.)</span></p>
+    <div class="dtree reveal">
+      <div class="dstep">
+        <div class="dgate"><div class="dg-n">Threshold</div><div class="dg-q">Who is on the other side?</div></div>
+        <div class="dexit">non-believer / company</div>
+        <div class="dout info">Courts are open to you<small>1 Cor. 6 doesn’t bind this</small></div>
+      </div>
+      <div class="dlink">a fellow believer</div>
+      <div class="dstep">
+        <div class="dgate"><div class="dg-n">Safety first</div><div class="dg-q">A dangerous crime? (e.g. abuse)</div></div>
+        <div class="dexit">someone’s in danger</div>
+        <div class="dout urgent">Church AND police — at once<small>protect people first</small></div>
+      </div>
+      <div class="dlink">no immediate danger</div>
+      <div class="dstep">
+        <div class="dgate"><div class="dg-n">Condition 1</div><div class="dg-q">Church remedies exhausted?</div></div>
+        <div class="dexit">not yet</div>
+        <div class="dout warn">Go to the church first<small>Matt. 18 — the first door</small></div>
+      </div>
+      <div class="dlink">fully exhausted</div>
+      <div class="dstep">
+        <div class="dgate"><div class="dg-n">Condition 2</div><div class="dg-q">Are the rights biblically legitimate?</div></div>
+        <div class="dexit">no / unsure</div>
+        <div class="dout bad">Don’t pursue it<small>a legal right can still be wrong</small></div>
+      </div>
+      <div class="dlink">legitimate</div>
+      <div class="dstep">
+        <div class="dgate"><div class="dg-n">Condition 3</div><div class="dg-q">Is the purpose righteous?</div></div>
+        <div class="dexit">no</div>
+        <div class="dout warn">Reconsider — settle quickly<small>Matt. 5:25</small></div>
+      </div>
+      <div class="dlink">all three met</div>
+      <div class="dfinal"><span class="df-b">✓ May proceed</span><span class="df-t">— cautiously, counting the cost</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- 11 D: WIZARD (with conditions recap) -->
+<section class="sec" id="wizard" data-app="d" data-nav="Court Wizard">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div>
+        <div class="eyebrow">Try it · Interactive</div>
+        <h2 style="margin-bottom:.2em">"Should I go to court?" — the wizard</h2>
+      </div>
+      <figure class="gif-fig" data-gif="wizard"><img alt="judge banging a gavel"><figcaption>order in the court</figcaption></figure>
+    </div>
+    <p class="muted reveal" style="margin-bottom:.9em">Three conditions must <em>all</em> be met: <strong>① exhaust church remedies</strong> · <strong>② biblically legitimate rights</strong> · <strong>③ a righteous purpose</strong>. Walk it below.</p>
+    <div class="tool reveal">
+      <div class="tool-head"><span class="pill">Appendix D</span><span class="muted" style="font-size:.85em">Answer honestly — the path leads where Sande would send you.</span></div>
+      <div id="wizard"></div>
+    </div>
+  </div>
+</section>
+
+<!-- 12 D: JURISDICTION VENN -->
+<section class="sec" data-app="d" data-nav="Jurisdiction">
+  <div class="wrap">
+    <div class="sec-head reveal" style="margin-bottom:.7em">
+      <div>
+        <div class="eyebrow">Who has authority? · click the diagram</div>
+        <h2 style="margin-bottom:0">Two jurisdictions — sometimes overlapping</h2>
+      </div>
+      <figure class="gif-fig" data-gif="juris"><img alt="referee making a call"><figcaption>who makes the call?</figcaption></figure>
+    </div>
+    <div class="venn-stage reveal">
+      <div class="venn" id="venn">
+        <div class="circle c-church" data-k="church"><div class="lbl"><b>Church</b><span>sin &amp; the heart</span><span class="ex">e.g. refusing to forgive · gossip · bitterness</span></div></div>
+        <div class="circle c-state" data-k="state"><div class="lbl"><b>State</b><span>crime &amp; society</span><span class="ex">e.g. suing a company · the government · an insurer</span></div></div>
+        <button class="overlap" data-k="both">Concurrent<br>jurisdiction<span class="ex" style="display:block;font-weight:500;margin-top:.3em;text-transform:none;letter-spacing:0">e.g. theft · shoplifting · assault</span></button>
+      </div>
+      <div class="venn-side">
+        <div class="picks">
+          <button class="venn-pick" data-k="church" style="--dot:var(--burgundy)">Sin, not crime<span class="ex">refusing to forgive, gossip, bitterness</span></button>
+          <button class="venn-pick" data-k="both" style="--dot:#5b3a3f">Both — sin &amp; crime<span class="ex">theft, shoplifting, assault</span></button>
+          <button class="venn-pick" data-k="state" style="--dot:var(--blue)">Crime vs. society<span class="ex">a company, the government, an insurer</span></button>
+        </div>
+        <div id="venn-detail"></div>
+        <div class="abuse-note">⚠ <b>Exception:</b> for a dangerous crime where others could be harmed (e.g. abuse), invoke church <b>and</b> police <em>at the same time</em> — protect people first.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 12.5 D: WORKED CASE — Bob & Betty (walks the wizard) -->
+<section class="sec" data-app="d" data-nav="Worked Case">
+  <div class="wrap">
+    <div class="eyebrow reveal">A concrete case · walked through the wizard</div>
+    <h2 class="reveal" style="margin-bottom:.5em">The Case of the Shoplifted CD Player</h2>
+    <div class="casefile reveal">
+      <div class="cf-content">
+        <div class="cf-cap">Docket · Sande’s own example · concurrent jurisdiction</div>
+        <div class="cf-row"><span class="cf-tag">Facts</span><p><strong>Bob</strong> shoplifts a CD player from <strong>Betty</strong>’s store. Bob professes to be a Christian and belongs to a Bible-faithful church.</p></div>
+        <div class="cf-row q"><span class="cf-tag">Question presented</span><p>Should Betty press charges right away — or is there a door to try <em>before</em> the courthouse?</p></div>
+      </div>
+      <figure class="cf-exhibit" data-gif="casegif"><img alt="sneaking shoplifter"><figcaption>Bob, allegedly</figcaption></figure>
+    </div>
+    <p class="lead reveal" style="margin-top:1em">Shoplifting is both a <strong>sin</strong> and a <strong>crime</strong>, so the church and the state share jurisdiction. Here’s how the <strong>"Should I go to court?" wizard</strong> — the tool we built two slides back — handles exactly this case.</p>
+    <div class="tool reveal" style="margin-top:1.1em">
+      <div class="tool-head"><span class="pill">The tool, explained</span><span class="muted" style="font-size:.85em">The wizard just encodes Sande’s logic — court is the <em>last</em> door, never the first.</span></div>
+      <div class="crumbs" style="margin-bottom:.5em"><span class="crumb">Other side: a believer</span><span class="crumb">Not a dangerous crime</span><span class="crumb">Church remedies: not yet</span></div>
+      <div class="verdict warn"><div class="vbadge" style="font-size:clamp(22px,2.6vw,34px)">Step 1</div><h3 class="vtitle">Go to the church first</h3><p class="vbody">Because Bob professes faith and no one is in danger, Betty doesn’t rush to the courthouse. She holds off on charges and asks Bob’s church to step in.</p><div class="vverse">Matt. 18:15–20</div></div>
+      <div class="grid g2" style="margin-top:1em;gap:14px">
+        <div class="verdict good"><div class="vbadge" style="font-size:clamp(19px,2.2vw,27px)">If Bob repents</div><h3 class="vtitle">Resolved — no court needed</h3><p class="vbody">The church brings Bob to repentance and restitution. The matter is settled, and the civil authorities never have to be involved at all.</p><div class="vverse">Luke 19:8–9</div></div>
+        <div class="verdict bad"><div class="vbadge" style="font-size:clamp(19px,2.2vw,27px)">If Bob refuses</div><h3 class="vtitle">The church removes him</h3><p class="vbody">An unrepentant Bob is put out of fellowship. He’s no longer a "brother… among you," so 1 Cor. 6 no longer shields him.</p><div class="vverse">1 Cor. 5:11–13 · Matt. 18:17</div></div>
+      </div>
+      <div class="dlink" style="margin:.7em 0 .2em">re-run the wizard for the unrepentant Bob</div>
+      <div class="crumbs" style="margin-bottom:.5em"><span class="crumb">Now outside the church</span><span class="crumb">Not dangerous</span><span class="crumb">Church remedies exhausted</span><span class="crumb">Legitimate rights</span><span class="crumb">Righteous purpose</span></div>
+      <div class="verdict good"><div class="vbadge" style="font-size:clamp(22px,2.6vw,34px)">Last door</div><h3 class="vtitle">Now the state may step in</h3><p class="vbody">With the church’s process exhausted, Betty may legitimately turn to the civil courts. The two jurisdictions hand off cleanly — church first, court last.</p><div class="vverse">Rom. 13:1–7</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 13 CONCLUSION -->
+<section class="sec" data-app="d" data-nav="Conclusion">
+  <div class="wrap" style="text-align:center">
+    <div class="eyebrow reveal" style="justify-content:center">Appendix D</div>
+    <h2 class="reveal">One framework: <em>restore</em>, don’t retaliate</h2>
+    <div class="rule reveal" style="margin-left:auto;margin-right:auto"></div>
+    <p class="lead reveal" style="max-width:760px;margin:0 auto">Repair harm where you can; treat the courtroom as the last door, not the first. Both appendices refuse the false choice between <strong>justice</strong> and <strong>mercy</strong>.</p>
+    <figure class="gif-fig reveal" data-gif="close" style="display:block;margin:1.2em auto 0;transform:rotate(1.4deg)"><img alt="mic drop"><figcaption>…I rest my case</figcaption></figure>
+    <div class="discuss reveal" style="margin:1.5em auto 0;max-width:840px;text-align:left">
+      <div class="discuss-label" style="text-align:center">For discussion</div>
+      <div class="dq"><span class="dq-n">1</span><p>Have you ever <em>"won"</em> a fight or an argument but still walked away feeling like you <em>lost</em>? What did winning actually cost you?</p></div>
+      <div class="dq"><span class="dq-n">2</span><p>When you’re in a serious conflict, who do you turn to <em>first</em> to sort it out? And when does bringing in an outside authority — a court, the police, a boss, HR — make things <em>better</em>… and when does it make things <em>worse</em>?</p></div>
+    </div>
+    <p class="muted reveal" style="font-size:.78em;margin-top:1.8em;max-width:640px;margin-left:auto;margin-right:auto">Ken Sande, <em>The Peacemaker: A Biblical Guide to Resolving Personal Conflict</em>, 3rd ed. (Grand Rapids: Baker Books, 2004) — Appendices C &amp; D. Scripture: NIV.</p>
+  </div>
+</section>
+
+<script>
+/* ============================================================
+   FUN GIFS — swap any of these at giphy.com (open a GIF, copy its
+   ".gif" media link). A blank value or a dead link just hides
+   itself, so it can never show a broken image during your talk.
+   ============================================================ */
+var GIFS = {
+  calc    : 'https://media.giphy.com/media/hQKJwKAzq5NERlLf8L/giphy.gif', // "confused math lady" — on the calculator
+  reveal  : 'https://media.giphy.com/media/26uf7OZfSyiVf2xC8/giphy.gif',  // spit-take — pops in when the 4x answer is revealed
+  wizard  : 'https://media.giphy.com/media/hULtfao6aYeGSDlbnI/giphy.gif', // judge's gavel — on the "go to court?" wizard
+  casegif : 'https://media.giphy.com/media/xT39DkkGBwez9AXHX2/giphy.gif', // Daffy Duck sneaking — on "The Case of the Stolen Phone"
+  example : 'https://media.giphy.com/media/XZkqrQeqkxelW/giphy.gif',       // counting cash — on the Worked Example
+  overview: 'https://media.giphy.com/media/UpJ9NgkmFisshJnJ61/giphy.gif',  // scales of justice — on the Overview
+  zacc    : 'https://media.giphy.com/media/YvphBXT8fMqUN5GNVe/giphy.gif',  // cash — on What & Why (Zacchaeus repaid 4×)
+  scale   : 'https://media.giphy.com/media/QFxjvH8Vmsrxatbsjn/giphy.gif',  // referee "penalty!" — on The Scale (penalty rises)
+  forgive : 'https://media.giphy.com/media/mmxGEbtTaFnAPY4Q2Z/giphy.gif',  // handshake — on Forgiveness
+  heart   : 'https://media.giphy.com/media/0947zBAJGEJ0wHui6m/giphy.gif',  // hand on heart — on Heart vs Court
+  views   : 'https://media.giphy.com/media/jB6eh5PyQlS5x84nA5/giphy.gif',  // "which one?" — on Three Views
+  tree    : 'https://media.giphy.com/media/vNpt60C1mezH7Ukkbj/giphy.gif',  // lost in a maze — on the Decision Tree
+  juris   : 'https://media.giphy.com/media/26FKYDUiONqBgJQ52/giphy.gif',   // referee — on Jurisdiction (who has authority?)
+  close   : 'https://media.giphy.com/media/akxiiXm2aWXQ7dAMq5/giphy.gif'    // mic drop "I rest my case" — on the Close
+};
+
+(function(){
+  /* ---------- scroll reveal ---------- */
+  var io=new IntersectionObserver(function(es){
+    es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} });
+  },{threshold:.18});
+  document.querySelectorAll('.reveal,.stagger,.scale').forEach(function(el){io.observe(el);});
+
+  /* ---------- progress bar + dots ---------- */
+  var secs=[].slice.call(document.querySelectorAll('section.sec'));
+  var dots=document.getElementById('dots');
+  secs.forEach(function(s,i){
+    var b=document.createElement('button');
+    var app=s.getAttribute('data-app'); if(app)b.setAttribute('data-app',app);
+    b.innerHTML='<span class="dl">'+(s.getAttribute('data-nav')||('Section '+(i+1)))+'</span>';
+    b.setAttribute('aria-label','Go to '+(s.getAttribute('data-nav')||('section '+(i+1))));
+    b.onclick=function(){ goSec(i); };
+    dots.appendChild(b);
+  });
+  var dotBtns=[].slice.call(dots.children);
+  var bar=document.getElementById('bar');
+  var srLive=document.getElementById('sr-live'), lastAnnounced=-1;
+  function curIndex(){
+    var y=window.scrollY+window.innerHeight*0.4,idx=0;
+    secs.forEach(function(s,i){ if(s.offsetTop<=y)idx=i; });
+    return idx;
+  }
+  function onScroll(){
+    var h=document.documentElement.scrollHeight-window.innerHeight;
+    bar.style.width=(h>0?(window.scrollY/h*100):0)+'%';
+    var ci=curIndex();
+    dotBtns.forEach(function(b,i){ b.classList.toggle('active',i===ci); });
+    if(srLive&&ci!==lastAnnounced){ lastAnnounced=ci; var hd=secs[ci].querySelector('h1,h2'); srLive.textContent=(secs[ci].getAttribute('data-nav')||('Section '+(ci+1)))+(hd?': '+hd.textContent:''); }
+  }
+  var ticking=false;
+  window.addEventListener('scroll',function(){ if(!ticking){ticking=true;requestAnimationFrame(function(){onScroll();ticking=false;});} },{passive:true});
+  function goSec(i){ i=Math.max(0,Math.min(secs.length-1,i)); secs[i].scrollIntoView({behavior:'smooth'}); }
+
+  /* ---------- keyboard nav ---------- */
+  document.addEventListener('keydown',function(e){
+    var t=e.target.tagName;
+    if(['INPUT','TEXTAREA','SELECT','BUTTON'].indexOf(t)>=0) return;
+    var k=e.key;
+    if(k==='ArrowDown'||k==='ArrowRight'||k==='PageDown'||k===' '){ e.preventDefault(); goSec(curIndex()+1); }
+    else if(k==='ArrowUp'||k==='ArrowLeft'||k==='PageUp'){ e.preventDefault(); goSec(curIndex()-1); }
+    else if(k==='Home'){ e.preventDefault(); goSec(0); }
+    else if(k==='End'){ e.preventDefault(); goSec(secs.length-1); }
+    else if(k==='f'||k==='F'){ if(!document.fullscreenElement){(document.documentElement.requestFullscreen||function(){})();}else if(document.exitFullscreen){document.exitFullscreen();} }
+  });
+  document.getElementById('full').onclick=function(){ if(!document.fullscreenElement){(document.documentElement.requestFullscreen||function(){})();}else if(document.exitFullscreen){document.exitFullscreen();} };
+
+  /* ---------- flip cards ---------- */
+  document.querySelectorAll('.flip').forEach(function(f){
+    f.addEventListener('click',function(){ f.classList.toggle('flipped'); });
+    f.addEventListener('keydown',function(e){ if(e.key==='Enter'||e.key===' '){e.preventDefault();f.classList.toggle('flipped');} });
+  });
+
+  /* ---------- accordion views ---------- */
+  document.querySelectorAll('[data-view] .view-head').forEach(function(h){
+    h.addEventListener('click',function(){ h.parentElement.classList.toggle('open'); });
+  });
+
+  /* ---------- expandable scale rungs ---------- */
+  document.querySelectorAll('.rung[data-rung]').forEach(function(r){
+    function t(){ var o=r.classList.toggle('open'); r.setAttribute('aria-expanded',o); }
+    r.addEventListener('click',t);
+    r.addEventListener('keydown',function(e){ if(e.key==='Enter'||e.key===' '){e.preventDefault();t();} });
+  });
+
+  /* ---------- flow engine (calculator + wizard) ---------- */
+  function fmtMoney(n){ return (Math.round(n*100)/100).toLocaleString('en-US'); }
+  function makeFlow(mountId,root,opts){
+    opts=opts||{};
+    var mount=document.getElementById(mountId);
+    var stack=[],node=root,amount='';
+    function verdict(n){
+      var h='<div class="verdict '+n.tone+'">';
+      if(n.badge) h+='<div class="vbadge">'+n.badge+'</div>';
+      h+='<h3 class="vtitle">'+n.title+'</h3><p class="vbody">'+n.body+'</p>';
+      if(opts.amount && n.mult!=null){
+        var owed = amount!=='' ? '$'+fmtMoney(parseFloat(amount)*n.mult) : '—';
+        h+='<div class="owed-row">On a <b>$'+(amount!==''?amount:'—')+'</b> loss, you would owe <span class="owed">'+owed+'</span></div>';
+      }
+      if(n.verse) h+='<div class="vverse">'+n.verse+'</div>';
+      h+='</div>';
+      return h;
+    }
+    function draw(){
+      var h='';
+      if(opts.amount){
+        h+='<div class="calc-amount"><label>Property value <span class="muted">(optional — enter it to get the exact amount owed)</span></label><div class="amt"><span>$</span><input type="text" inputmode="decimal" id="'+mountId+'-amt" value="'+amount+'" placeholder="e.g. 1000"></div></div>';
+      }
+      if(stack.length){
+        h+='<div class="crumbs">';
+        stack.forEach(function(s){ h+='<span class="crumb">'+s.label+'</span>'; });
+        h+='</div>';
+      }
+      if(node.result){
+        h+=verdict(node);
+        h+='<div class="flow-actions"><button class="btn-ghost" data-act="back">‹ Back</button><button class="btn-ghost" data-act="restart">↺ Start over</button></div>';
+      }else{
+        h+='<div class="flow-q">'+node.q+'</div>';
+        if(node.help)h+='<div class="flow-help">'+node.help+'</div>';
+        h+='<div class="opts">';
+        node.options.forEach(function(o,i){ h+='<button class="opt" data-opt="'+i+'">'+o.label+(o.sub?'<span class="opt-sub">'+o.sub+'</span>':'')+'</button>'; });
+        h+='</div>';
+        if(stack.length) h+='<div class="flow-actions"><button class="btn-ghost" data-act="back">‹ Back</button><button class="btn-ghost" data-act="restart">↺ Start over</button></div>';
+      }
+      mount.innerHTML=h;
+      mount.querySelectorAll('.opt').forEach(function(b){
+        b.onclick=function(){ var o=node.options[+b.dataset.opt]; stack.push({label:o.crumb||o.label}); node=o.to; draw(); };
+      });
+      var ab=mount.querySelector('[data-act="back"]'); if(ab)ab.onclick=function(){ stack.pop(); node=walk(); draw(); };
+      var rb=mount.querySelector('[data-act="restart"]'); if(rb)rb.onclick=function(){ stack=[]; node=root; draw(); };
+      var ai=opts.amount?document.getElementById(mountId+'-amt'):null;
+      if(ai){ ai.oninput=function(){ amount=ai.value.replace(/[^0-9.]/g,''); var ow=mount.querySelector('.owed'); if(ow&&node.result&&node.mult!=null){ var r=mount.querySelector('.owed-row'); r.innerHTML='On a <b>$'+(amount!==''?amount:'—')+'</b> loss, you would owe <span class="owed">'+(amount!==''?'$'+fmtMoney(parseFloat(amount)*node.mult):'—')+'</span>'; } }; }
+    }
+    function walk(){ // recompute node from stack by replaying
+      var n=root; stack.forEach(function(s){ var opt=(n.options||[]).filter(function(o){return (o.crumb||o.label)===s.label;})[0]; if(opt)n=opt.to; }); return n;
+    }
+    draw();
+  }
+
+  /* ----- Calculator tree ----- */
+  var rSimple={result:1,tone:'good',badge:'Repair',title:'Simple restitution',body:'Repair or replace what was lost — restore the owner to their former position.',mult:1,verse:'Exod. 22:5–6'};
+  var rPlus20={result:1,tone:'good',badge:'+20%',title:'Repay in full, plus one-fifth',body:'Voluntary repentance earns a lighter penalty: the value of the property plus a 20% penalty.',mult:1.2,verse:'Lev. 6:1–5 · Num. 5:5–10'};
+  var r2x={result:1,tone:'warn',badge:'2×',title:'Return it — and its equal value',body:'Caught with the goods intact: give it back, plus pay its value over again.',mult:2,verse:'Exod. 22:4'};
+  var r4x={result:1,tone:'bad',badge:'4×',title:'Repay four times the value',body:'Caught after the goods are gone — the penalty rises sharply to discourage deliberate theft.',mult:4,verse:'Exod. 22:1'};
+  var r5x={result:1,tone:'bad',badge:'5×',title:'Repay five times the value',body:'When what was taken is especially hard to replace, restitution rises to fivefold.',mult:5,verse:'Exod. 22:1'};
+  var calcGoods={q:'Where is the property now?',help:'For theft, the penalty depends on whether the item can still be returned.',options:[
+    {label:'Recovered, still intact',sub:'e.g. the phone is still in your bag when you’re caught',crumb:'Goods intact',to:r2x},
+    {label:'Already sold or disposed of',sub:'e.g. you pawned it, or threw it away',crumb:'Goods gone',to:r4x},
+    {label:'Hard to replace (irreplaceable)',sub:'e.g. a discontinued model, or a one-of-a-kind item',crumb:'Hard to replace',to:r5x}]};
+  var calcRepent={q:'Did you repent and resolve to make it right BEFORE you were caught?',help:'Timing matters — Scripture rewards coming clean on your own.',options:[
+    {label:'Yes — I came forward on my own',sub:'e.g. conscience-stricken, you confessed and offered to repay before anyone noticed',crumb:'Repented first',to:rPlus20},
+    {label:'No — I was caught or confronted',sub:'e.g. the owner found out, or you were caught red-handed',crumb:'Caught',to:calcGoods}]};
+  var calcRoot={q:'Was the damage or loss intentional?',help:'Picture a real case — say, your friend’s $1,000 iPhone 17 Pro.',options:[
+    {label:'No — accidental or negligent',sub:'e.g. you knocked it off the table, or dropped it in water',crumb:'Unintentional',to:rSimple},
+    {label:'Yes — it was deliberate',sub:'e.g. you took it on purpose, or smashed it in anger',crumb:'Intentional',to:calcRepent}]};
+  makeFlow('calc',calcRoot,{amount:true});
+
+  /* ----- Wizard tree ----- */
+  var wProceed={result:1,tone:'good',badge:'✓ All 3 conditions met',title:'You may proceed — cautiously',body:'You may appeal to the courts. But count the cost first, and ask the steward’s question: "Would my Master be honored if I used His time and resources on this?"'};
+  var wPurpose={result:1,tone:'warn',badge:'Condition 3 unmet',title:'Reconsider — and settle quickly',body:'Without a righteous purpose, don’t file. Take Jesus’ counsel: "Settle matters quickly with your adversary."',verse:'Matt. 5:25'};
+  var wRights={result:1,tone:'bad',badge:'Condition 2 unmet',title:'Don’t pursue it',body:'A legally available right can still be wrong before God. If the claim itself is contrary to Scripture, winning it is still wrong.'};
+  var wChurch={result:1,tone:'warn',badge:'Condition 1 unmet',title:'Go to the church first',body:'Most conflicts settle here, long before a courtroom. Only the church can reach the sin a civil court cannot. Court is the last door, not the first.',verse:'Matt. 18:15–20'};
+  var wUrgent={result:1,tone:'urgent',badge:'Act now — both authorities',title:'Invoke church AND civil authorities together',body:'When others could be seriously injured, use both jurisdictions at once. Police restrain the behavior and protect people; the church ministers to the heart. Never delay reporting to protect a reputation.'};
+  var wInfo={result:1,tone:'info',badge:'1 Cor. 6 doesn’t bind you',title:'The courts are open to you',body:'1 Corinthians 6 governs disputes between believers that the church can discipline — not these. Still, try to resolve it informally first, and if a Christian wronged you, deal with any personal animosity biblically.'};
+  var wNode5={q:'Does the lawsuit serve a righteous purpose? Will it (1) advance God’s kingdom, (2) genuinely benefit your opponent, and (3) enhance your service to Christ?',options:[
+    {label:'Yes — all three',crumb:'Righteous purpose',to:wProceed},
+    {label:'No / not really',crumb:'No righteous purpose',to:wPurpose}]};
+  var wNode4={q:'Are the rights you would enforce biblically legitimate?',help:'Some legal "rights" are contrary to Scripture.',options:[
+    {label:'Yes — the claim itself is just',crumb:'Legitimate rights',to:wNode5},
+    {label:'No / unsure',crumb:'Questionable rights',to:wRights}]};
+  var wNode3={q:'Have you fully exhausted the church’s process?',help:'Matthew 18 — and, if needed, church-to-church appeal — ending with the unrepentant person removed from fellowship.',options:[
+    {label:'Yes — exhausted; opponent is outside the church',crumb:'Church remedies exhausted',to:wNode4},
+    {label:'No — not yet',crumb:'Church remedies pending',to:wChurch}]};
+  var wNode2={q:'Is this a dangerous crime where someone could be seriously harmed (e.g. physical or sexual abuse)?',options:[
+    {label:'Yes — someone is in danger',crumb:'Dangerous crime',to:wUrgent},
+    {label:'No',crumb:'Not a dangerous crime',to:wNode3}]};
+  var wRoot={q:'Who is on the other side of the dispute?',options:[
+    {label:'A fellow Christian (professing believer)',crumb:'Vs. a believer',to:wNode2},
+    {label:'A non-Christian, company, government, or insurer',crumb:'Vs. non-/non-church body',to:wInfo}]};
+  makeFlow('wizard',wRoot,{});
+
+  /* ---------- interactive venn ---------- */
+  var venn=document.getElementById('venn'), vd=document.getElementById('venn-detail');
+  var V={
+    church:{cls:'focus-church',tag:'Church only',title:'Sin, not crime',body:'Offenses against God’s revealed will but not society’s laws — e.g. refusing to be reconciled, gossip, or harboring bitterness. The church alone has authority; its ultimate sanction is removal from fellowship.'},
+    both:{cls:'focus-both',tag:'Concurrent jurisdiction',title:'Sin that is also a crime',body:'Acts like theft, shoplifting, or assault break both God’s law and society’s. Example: Bob shoplifts from Betty’s store — turn to the church first; if it brings repentance, the courts may never be needed. If not, civil authority may act.'},
+    state:{cls:'focus-state',tag:'Beyond the church’s reach',title:'Crime against society',body:'The church can’t discipline a company, the government, or an insurer — so it’s appropriate to resolve those disputes in court (after trying informal means).'}
+  };
+  function setVenn(k){
+    venn.classList.remove('focus-church','focus-both','focus-state');
+    venn.classList.add(V[k].cls);
+    vd.innerHTML='<div class="vd-tag">'+V[k].tag+'</div><h4>'+V[k].title+'</h4><p>'+V[k].body+'</p>';
+    document.querySelectorAll('.venn-pick').forEach(function(b){ b.classList.toggle('active',b.dataset.k===k); });
+  }
+  document.querySelectorAll('.venn-pick,[data-k]').forEach(function(b){ b.addEventListener('click',function(){ setVenn(b.dataset.k); }); });
+  setVenn('both');
+
+  /* ---------- predict-the-verdict reveal (presenter-run) ---------- */
+  (function(){
+    var gopts=document.getElementById('guess-opts'),grev=document.getElementById('guess-reveal'),greset=document.getElementById('guess-reset'),gexp=document.getElementById('guess-explain'),picked=null;
+    if(!gopts) return;
+    [].slice.call(gopts.querySelectorAll('.poll-opt')).forEach(function(b){
+      b.addEventListener('click',function(){ if(gopts.classList.contains('show-answer'))return; [].slice.call(gopts.children).forEach(function(x){x.classList.remove('picked');}); b.classList.add('picked'); picked=b; });
+    });
+    if(grev) grev.addEventListener('click',function(){
+      gopts.classList.add('show-answer'); grev.disabled=true; grev.textContent='Answer revealed ✓';
+      if(greset) greset.hidden=false;
+      var g=picked?picked.querySelector('.pa').textContent:null, right=picked&&picked.getAttribute('data-correct')==='1';
+      var lead=g?('You guessed <b>'+g+'</b>. '+(right?'Exactly right — rare!':'Most people guess too low, too.')+' '):'';
+      var revGif = (typeof GIFS!=='undefined' && GIFS.reveal) ? '<figure class="gif-fig"><img alt="shocked reaction" src="'+GIFS.reveal+'" onerror="var f=this.closest(\'.gif-fig\'); if(f) f.style.display=\'none\'"><figcaption>the room, finding out</figcaption></figure>' : '';
+      gexp.innerHTML='<div class="explain-card"><div class="ec-text"><div class="eh">It’s 4× — $4,000</div><p>'+lead+'Caught after selling the goods, with no repentance, the Law multiplies the penalty fourfold. <span style="color:var(--green);font-weight:700">Exodus 22:1</span></p><p class="punch">Feel that flinch? That’s the point — restitution makes deliberate wrong <em>unprofitable</em>, and it rewards those who repent <em>before</em> they’re caught.</p></div>'+revGif+'</div>';
+    });
+    if(greset) greset.addEventListener('click',function(){
+      gopts.classList.remove('show-answer');
+      [].slice.call(gopts.children).forEach(function(x){x.classList.remove('picked');});
+      picked=null;
+      gexp.innerHTML='';
+      grev.disabled=false; grev.textContent='Reveal the ruling →';
+      greset.hidden=true;
+    });
+  })();
+
+  /* ---------- fun gifs ---------- */
+  [].slice.call(document.querySelectorAll('[data-gif]')).forEach(function(fig){
+    var url=(typeof GIFS!=='undefined')?GIFS[fig.getAttribute('data-gif')]:'', img=fig.querySelector('img');
+    if(!url||!img){ fig.style.display='none'; return; }
+    img.onerror=function(){ fig.style.display='none'; };
+    img.src=url;
+  });
+
+  onScroll();
+})();
+</script>
+</body>
+</html>

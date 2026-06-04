@@ -95,6 +95,18 @@ em{color:var(--gold-deep);font-style:italic}
 .cue .chev{font-size:22px;color:var(--gold);animation:bob 1.8s ease-in-out infinite}
 @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(7px)}}
 
+/* ===== HERO PROOF ===== */
+.hero-proof{display:flex;justify-content:center;gap:clamp(8px,1.4vw,18px);flex-wrap:wrap;margin-top:1.6em;opacity:0;animation:rise 1s .5s forwards}
+.proof-item{display:flex;flex-direction:column;align-items:center;gap:.3em;min-width:90px}
+.proof-mult{font-family:var(--display);font-weight:700;font-size:clamp(20px,2.6vw,34px);color:#fff;background:var(--burgundy);padding:.2em .6em;border-radius:10px;line-height:1;white-space:nowrap;box-shadow:0 6px 16px -8px var(--burgundy)}
+.proof-item:nth-child(1) .proof-mult{background:var(--green)}
+.proof-item:nth-child(2) .proof-mult{background:#8a8a30}
+.proof-item:nth-child(3) .proof-mult{background:var(--gold-deep)}
+.proof-item:nth-child(4) .proof-mult{background:var(--burgundy-soft)}
+.proof-item:nth-child(5) .proof-mult{background:var(--burgundy)}
+.proof-label{font-family:var(--ui);font-size:clamp(10px,1.1vw,13px);color:var(--ink-faint);text-align:center;max-width:10ch;line-height:1.2}
+@media(max-width:560px){.hero-proof{gap:10px}.proof-item{min-width:60px}.proof-label{font-size:10px}}
+
 /* ===== CARDS / GRID ===== */
 .grid{display:grid;gap:clamp(14px,1.7vw,22px)}
 .g2{grid-template-columns:repeat(2,1fr)}
@@ -435,7 +447,15 @@ a:focus-visible,button:focus-visible,.flip:focus-visible,[tabindex]:focus-visibl
   <div class="wrap">
     <div class="booktag">Biblical Conflict Resolution</div>
     <h1>Someone Wronged You.<br>What Does the Bible Say You're Owed?</h1>
-    <div class="sub">Two interactive tools that walk you through Scripture's answers — from calculating restitution to deciding whether court is right.</div>
+    <div class="sub">Not a vague "forgive and forget." Scripture lays out a precise, graduated system — the penalty <em>rises</em> with intent and <em>falls</em> with repentance.</div>
+    <div class="hero-proof">
+      <div class="proof-item"><span class="proof-mult">Repair</span><span class="proof-label">Accident — just fix it</span></div>
+      <div class="proof-item"><span class="proof-mult">+20%</span><span class="proof-label">Repented before caught</span></div>
+      <div class="proof-item"><span class="proof-mult">2x</span><span class="proof-label">Caught with the goods</span></div>
+      <div class="proof-item"><span class="proof-mult">4x</span><span class="proof-label">Sold or destroyed</span></div>
+      <div class="proof-item"><span class="proof-mult">5x</span><span class="proof-label">Irreplaceable</span></div>
+    </div>
+    <div class="sub" style="margin-top:.8em;font-size:clamp(16px,1.8vw,24px)">The Bible doesn't guess. It distinguishes motive, timing, and outcome — then assigns a specific remedy. Try it yourself:</div>
     <div class="hero-ctas">
       <a href="#calc" class="hero-cta primary">Restitution Calculator</a>
       <a href="#wizard" class="hero-cta secondary">Court Decision Wizard</a>

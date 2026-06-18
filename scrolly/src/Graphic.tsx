@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { motion } from "framer-motion";
 import {
   CorinthiansScandal,
   FlipCards,
@@ -81,18 +81,15 @@ export function Graphic({ viz, index, total, interactive }: GraphicProps) {
           </div>
         )}
       </div>
-      <AnimatePresence mode="wait">
-        <motion.div
-          key={viz}
-          className="stage-viz"
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -8 }}
-          transition={{ duration: 0.28 }}
-        >
-          {VIZ[viz]()}
-        </motion.div>
-      </AnimatePresence>
+      <motion.div
+        key={viz}
+        className="stage-viz"
+        initial={{ opacity: 0, y: 8 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.25 }}
+      >
+        {VIZ[viz]()}
+      </motion.div>
     </div>
   );
 }

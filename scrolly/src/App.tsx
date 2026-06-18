@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import { motion, useScroll, useSpring } from "framer-motion";
 import { Graphic, type VizKey } from "./Graphic";
 import { useActiveStep } from "./lib/useActiveStep";
 import { STEPS } from "./story";
 
 const INTERACTIVE: Set<VizKey> = new Set(["calculator", "forgiveness", "heartCourt", "wizard"]);
+const STEP_IDS = STEPS.map((s) => s.id);
 
 export default function App() {
   const [hash, setHash] = useState(() => location.hash);
@@ -14,12 +14,10 @@ export default function App() {
     return () => window.removeEventListener("hashchange", onHash);
   }, []);
 
-  const ids = STEPS.map((s) => s.id);
+  const ids = STEP_IDS;
   const hashIdx = ids.indexOf(hash.replace("#", ""));
   const initial = hashIdx >= 0 ? hashIdx : 0;
   const { active, setRef } = useActiveStep(ids, initial);
-  const { scrollYProgress } = useScroll();
-  const progress = useSpring(scrollYProgress, { stiffness: 120, damping: 30, mass: 0.3 });
 
   const solo = hash.match(/^#solo(\d+)/);
   if (solo) {
@@ -52,7 +50,6 @@ export default function App() {
         <div className="brand">
           Restitution &amp; Court <span>· a biblical conflict guide</span>
         </div>
-        <motion.div className="progress" style={{ scaleX: progress }} />
       </header>
 
       <nav className="step-dots" aria-label="Section navigation">

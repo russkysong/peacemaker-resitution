@@ -1,23 +1,22 @@
 /* Prophet-keyness scroll design language */
 :root {
   --ink: #1a1a1a;
-  --mut: #635c52;          /* warm muted grey */
-  --line: #e8e2d6;         /* warm hairline */
-  --blue: #2e4a7a;         /* navy — THE accent */
-  --red: #ae4f3e;          /* terracotta — the only secondary accent */
-  --bg: #fdfdfb;
-  --card: #fdfbf6;         /* warm white card */
+  --mut: #6b7078;          /* neutral grey */
+  --line: #e6e6e8;         /* neutral hairline */
+  --blue: #2e4a7a;         /* navy — the single accent */
+  --red: #b04a3a;          /* reserved for genuine danger only */
+  --bg: #ffffff;           /* white */
+  --card: #ffffff;         /* white */
   --accent: #2e4a7a;
 
-  /* warm neutral ramp (ivory/sand, low chroma) */
-  --surface-1: #f4f0e7;   /* resting card fill */
-  --surface-2: #efe8da;   /* chips / inputs / ghost buttons */
-  --surface-3: #e7dfcd;   /* hover / pressed neutral */
-  --surface-sel: #e8ddc8; /* selected/active fill, paired with navy text */
+  /* neutral grey ramp (white-based) */
+  --surface-1: #f5f6f7;   /* resting fill */
+  --surface-2: #eceef0;   /* chips / inputs / ghost buttons */
+  --surface-3: #e1e4e7;   /* hover / pressed neutral */
+  --surface-sel: #e7ebf2; /* selected/active fill (faint navy) */
 
-  /* the two accent washes (warm, low-sat) */
-  --wash-navy: #eae6dd;   /* warm-neutral panel carrying navy text/markers */
-  --wash-red: #f3e3da;    /* terracotta wash for danger verdicts */
+  --wash-navy: #eef1f6;   /* faint navy panel */
+  --wash-red: #f6e9e6;    /* faint danger panel */
 
   --serif-display: "Fraunces", Georgia, "Times New Roman", serif;
   --serif: "Source Serif 4", Georgia, "Iowan Old Style", serif;
@@ -25,6 +24,6 @@
   --radius-lg: 16px;
   --radius-md: 12px;
   --radius-sm: 10px;
-  --shadow-card: 0 14px 40px -12px rgba(74, 58, 38, 0.16), 0 3px 10px -4px rgba(74, 58, 38, 0.07);
+  --shadow-card: 0 10px 30px -14px rgba(20, 28, 46, 0.16), 0 2px 8px -4px rgba(20, 28, 46, 0.06);
   --topbar-h: 56px;
 }

@@ -1,0 +1,30 @@
+/* Prophet-keyness scroll design language */
+:root {
+  --ink: #1a1a1a;
+  --mut: #635c52;          /* warm muted grey */
+  --line: #e8e2d6;         /* warm hairline */
+  --blue: #2e4a7a;         /* navy — THE accent */
+  --red: #ae4f3e;          /* terracotta — the only secondary accent */
+  --bg: #fdfdfb;
+  --card: #fdfbf6;         /* warm white card */
+  --accent: #2e4a7a;
+
+  /* warm neutral ramp (ivory/sand, low chroma) */
+  --surface-1: #f4f0e7;   /* resting card fill */
+  --surface-2: #efe8da;   /* chips / inputs / ghost buttons */
+  --surface-3: #e7dfcd;   /* hover / pressed neutral */
+  --surface-sel: #e8ddc8; /* selected/active fill, paired with navy text */
+
+  /* the two accent washes (warm, low-sat) */
+  --wash-navy: #eae6dd;   /* warm-neutral panel carrying navy text/markers */
+  --wash-red: #f3e3da;    /* terracotta wash for danger verdicts */
+
+  --serif-display: "Fraunces", Georgia, "Times New Roman", serif;
+  --serif: "Source Serif 4", Georgia, "Iowan Old Style", serif;
+  --sans: -apple-system, "Segoe UI", Roboto, sans-serif;
+  --radius-lg: 16px;
+  --radius-md: 12px;
+  --radius-sm: 10px;
+  --shadow-card: 0 14px 40px -12px rgba(74, 58, 38, 0.16), 0 3px 10px -4px rgba(74, 58, 38, 0.07);
+  --topbar-h: 56px;
+}

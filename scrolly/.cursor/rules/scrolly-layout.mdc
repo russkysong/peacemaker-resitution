@@ -1,0 +1,24 @@
+---
+description: Scrolly layout conventions for restitution (prophet-keyness pattern)
+globs: scrolly/**/*
+alwaysApply: false
+---
+
+# Scrolly layout rules
+
+Reference: `prophet-keyness/scrolly/` — no side TOC rail.
+
+## Structure
+- `<main className="scrolly">` only: steps column + sticky stage. **No SectionRail / “On this page” nav.**
+- Grid: `1fr / 1fr`, max-width 1200px (matches prophet-keyness).
+- Header lives inside `Graphic` → single `.stage-inner` card.
+- Interactive steps use `.stage-inner.stage-tool` (warm fill, no double card).
+- Desktop: fixed `.step-dots` on the right for 12-step jump navigation.
+
+## Viz
+- Wrap stage content in `.concept` so it vertically centers in the stage.
+- Tall interactives scroll inside `.stage-viz`.
+- Jurisdiction uses `JurisdictionVenn`, not flat tabs.
+
+## Mobile
+- Stage above steps, `height: 44vh`; hide `.stage-head` and `.step-dots`.

@@ -1,17 +1,34 @@
 # The Peacemaker — Restitution & Conflict Resolution
 
-An interactive guide to biblical principles of restitution and conflict resolution, based on Appendices C and D of Ken Sande's *The Peacemaker* (3rd edition).
+An interactive scroll-through guide to biblical principles of restitution and conflict resolution, based on Appendices C and D of Ken Sande's *The Peacemaker* (3rd edition).
 
 ## Features
 
-- **Restitution Calculator** — Walk through a real scenario and see the biblical restitution owed, with the verse behind it.
-- **"Should I Go to Court?" Wizard** — Sande's three-condition test, encoded as an interactive decision tree.
-- **Jurisdiction Venn Diagram** — Church vs. State authority, with interactive exploration.
-- **Predict the Verdict** — Test your instincts against the Law of Moses before seeing the answer.
+- **Prophet-keyness scroll format** — hero, sticky visual stage, section rail, progress bar
+- **Restitution Calculator** — walk through a scenario and see biblical restitution owed
+- **"Should I Go to Court?" Wizard** — Sande's three-condition test as an interactive flow
+- **Jurisdiction diagram** — church vs. state authority
+- **Predict the Verdict** — test your instincts against Exodus 22
 
-## Deployment
+## Development
 
-Static site — no build step required. Deployed to Cloudflare Pages.
+The public site is the React/Vite app in `scrolly/` (deployed at `/restitution/`).
+
+```bash
+cd scrolly
+npm install
+npm run dev
+```
+
+Build for production:
+
+```bash
+npm --prefix scrolly run build   # → scrolly/dist/
+```
+
+Deploy happens from the `01 portfolio` repo via `stages/02-build/build-deploy.sh`, which copies `scrolly/dist/` to `/restitution/`.
+
+The legacy single-file version is kept as `appendix-c-d.html` in the portfolio demos folder for reference.
 
 ## Source
 
